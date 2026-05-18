@@ -1,6 +1,7 @@
 // app.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
 // Ta configuration Firebase
 const firebaseConfig = {
@@ -17,9 +18,40 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Initialisation de l'authentification Firebase
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+let currentUser = null;
+
 const importBtn = document.getElementById('importBtn');
 const resultDiv = document.getElementById('result');
 
+// Gestion de la connexion avec Google
+const loginBtn = document.getElementById('loginBtn');
+const userInfo = document.getElementById('userInfo');
+
+loginBtn.addEventListener('click', async () => {
+    try {
+        await signInWithPopup(auth, provider);
+    } catch (error) {
+        console.error("Erreur de connexion :", error);
+    }
+});
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        currentUser = user;
+        loginBtn.style.display = 'none';
+        userInfo.style.display = 'inline';
+        userInfo.textContent = `Connecté : ${user.displayName}`;
+    } else {
+        currentUser = null;
+        loginBtn.style.display = 'inline';
+        userInfo.style.display = 'none';
+    }
+});
+
+// Fonction d'importation et de gestion dynamique de l'affichage
 importBtn.addEventListener('click', async () => {
     const url = document.getElementById('buildUrl').value;
     
@@ -28,10 +60,15 @@ importBtn.addEventListener('click', async () => {
         return;
     }
 
+    // Vérification que l'utilisateur est bien connecté
+    if (!currentUser) {
+        alert("Tu dois être connecté pour sauvegarder un build.");
+        return;
+    }
+
     resultDiv.innerHTML = "<p style='text-align:center;'>Magie en cours... Scraping du build...</p>";
 
     try {
-        // 1. Appel au serveur Node.js local (modifie l'URL quand tu seras en ligne)
         const response = await fetch('http://localhost:3000/api/scrape', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -41,38 +78,48 @@ importBtn.addEventListener('click', async () => {
         if (!response.ok) throw new Error("Erreur serveur lors de l'analyse");
         
         const buildData = await response.json();
-
-        // 2. Affichage sur la page HTML
-        const tagsHTML = buildData.variantesDisponibles.map(v => `<span class="tag">${v}</span>`).join('');
         
+        // Liaison du build à l'ID de l'utilisateur connecté
+        buildData.userId = currentUser.uid;
+
+        // Fonction globale pour mettre à jour l'équipement affiché lors du clic sur un tag
+        window.afficherVariante = (varianteNom) => {
+            const equipement = buildData.variantes[varianteNom];
+            let gearHTML = '';
+            
+            for (const [slot, item] of Object.entries(equipement)) {
+                gearHTML += `
+                    <div class="gear-item">
+                        <strong>${slot} :</strong> ${item.nomFR} <br>
+                        <small>(${item.nomEN})</small>
+                    </div>
+                `;
+            }
+            document.getElementById('gear-display').innerHTML = gearHTML;
+        };
+
+        // Création des tags cliquables pour chaque variante
+        const tagsHTML = Object.keys(buildData.variantes).map(v => 
+            `<span class="tag" style="cursor:pointer;" onclick="afficherVariante('${v}')">${v}</span>`
+        ).join('');
+        
+        const premiereVariante = Object.keys(buildData.variantes)[0];
+
         resultDiv.innerHTML = `
             <h2>${buildData.nom}</h2>
             <div class="variant-tags">${tagsHTML}</div>
-            
-            <div class="gear-list">
-                <div class="gear-item">
-                    <strong>Casque :</strong> ${buildData.equipement.casque.nomFR} <br>
-                    <small>(${buildData.equipement.casque.nomEN}) - <i>${buildData.equipement.casque.type}</i></small>
-                </div>
-                <div class="gear-item">
-                    <strong>Torse :</strong> ${buildData.equipement.torse.nomFR} <br>
-                    <small>(${buildData.equipement.torse.nomEN}) - <i>${buildData.equipement.torse.type}</i></small>
-                </div>
-                <div class="gear-item">
-                    <strong>Gants :</strong> ${buildData.equipement.gants.nomFR} <br>
-                    <small>(${buildData.equipement.gants.nomEN}) - <i>${buildData.equipement.gants.type}</i></small>
-                </div>
-            </div>
+            <div class="gear-list" id="gear-display"></div>
             <p id="firebaseStatus"></p>
         `;
 
-        // 3. Sauvegarde automatique dans Firestore
+        window.afficherVariante(premiereVariante);
+
         document.getElementById('firebaseStatus').innerHTML = "Sauvegarde dans Firebase en cours...";
         
         const docRef = await addDoc(collection(db, "builds_diablo"), buildData);
         
         document.getElementById('firebaseStatus').innerHTML = 
-            `<span class="success-msg">✓ Build sauvegardé avec succès dans Firebase ! (ID: ${docRef.id})</span>`;
+            `<span class="success-msg">✓ Build sauvegardé avec succès ! (ID: ${docRef.id})</span>`;
 
     } catch (error) {
         console.error(error);
