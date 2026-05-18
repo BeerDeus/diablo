@@ -7,7 +7,13 @@ const path = require('path');
 const app = express();
 app.use(cors());
 app.use(express.json());
+// Permet à Express de servir directement app.js et les autres fichiers du dossier
+app.use(express.static(__dirname));
 
+// Renvoie le fichier index.html lorsque l'on arrive sur la racine du site
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 // Chargement de la base de données locale
 const aspectsDbPath = path.join(__dirname, 'aspects.json');
 let aspectsData = {};
