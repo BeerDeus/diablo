@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanctuaire - Gestionnaire de Builds</title>
+    <style>
+        :root {
+            --d4-red: #8b0000;
+            --d4-dark: #111111;
+            --d4-grey: #2a2a2a;
+            --text-light: #e0e0e0;
+        }
+        body {
+            background-color: var(--d4-dark);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.2);
+        }
+        h1 { color: var(--d4-red); text-align: center; text-transform: uppercase; letter-spacing: 2px;}
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            background-color: var(--d4-grey);
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+        }
+        button {
+            padding: 12px 24px;
+            background-color: var(--d4-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #a00000; }
+        .variant-tags { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .tag {
+            background-color: #444;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #ffcc00;
+        }
+        .gear-list { display: flex; flex-direction: column; gap: 10px; }
+        .gear-item {
+            background-color: var(--d4-grey);
+            padding: 15px;
+            border-left: 4px solid var(--d4-red);
+            border-radius: 4px;
+        }
+        .success-msg { color: #4CAF50; margin-top: 15px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Forge de Build</h1>
+        
+        <div class="input-group">
+            <input type="text" id="buildUrl" placeholder="Colle le lien Mobalytics ici...">
+            <button id="importBtn">Analyser & Importer</button>
+        </div>
+
+        <div id="result">
+            </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+
+</body>
+</html>
