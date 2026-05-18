@@ -28,7 +28,6 @@ app.post('/api/scrape', async (req, res) => {
         const browser = await puppeteer.launch({ headless: "new" });
         const page = await browser.newPage();
         
-        // Définition d'une taille de fenêtre fixe pour garantir la visibilité des éléments
         await page.setViewport({ width: 1280, height: 1000 });
         await page.goto(url, { waitUntil: 'networkidle2' });
 
@@ -42,16 +41,18 @@ app.post('/api/scrape', async (req, res) => {
 
             const variantNoms = ["Legendary", "Uniques", "Mythic", "Selig Overpower", "Pit/Tower ONLY"];
             
-            // Collecte large des conteneurs de texte pour identifier les boutons d'onglets
-            const elements = Array.from(document.querySelectorAll('button, [role="tab"], span, div')).filter(el => 
-                el.innerText && variantNoms.includes(el.innerText.trim()) && el.children.length === 0
-            );
+            // Extraction uniquement des textes des onglets disponibles pour éviter les éléments fantômes
+            const textesOnglets = Array.from(document.querySelectorAll('button, [role="tab"], span, div'))
+                .filter(el => el.innerText && variantNoms.includes(el.innerText.trim()) && el.children.length === 0)
+                .map(el => el.innerText.trim());
 
-            const onglets = [...new Set(elements)];
+            const nomsOngletsUnique = [...new Set(textesOnglets)];
 
-            if (onglets.length === 0) {
+            if (nomsOngletsUnique.length === 0) {
                 donnees.variantes["Actuelle"] = {};
                 document.querySelectorAll('span[title]').forEach(span => {
+                    if (span.offsetWidth === 0 || span.offsetHeight === 0) return;
+                    
                     const parent = span.parentElement;
                     const childSpans = parent.querySelectorAll('span[title]');
                     if (childSpans.length >= 2) {
@@ -61,29 +62,35 @@ app.post('/api/scrape', async (req, res) => {
                 return donnees;
             }
 
-            // Boucle d'action sur chaque variante détectée
-            for (const onglet of onglets) {
-                const nomVariante = onglet.innerText.trim();
+            // On boucle sur les chaînes de texte extraites
+            for (const nomVariante of nomsOngletsUnique) {
                 donnees.variantes[nomVariante] = {};
                 
-                // Déclenchement d'une séquence de clics natifs pour forcer la mise à jour de l'état React
-                onglet.scrollIntoView();
-                onglet.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-                onglet.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
-                onglet.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-                
-                // Temporisation essentielle pour laisser les composants se re-rendre
-                await wait(800); 
-                
-                document.querySelectorAll('span[title]').forEach(span => {
-                    const parent = span.parentElement;
-                    const childSpans = parent.querySelectorAll('span[title]');
-                    if (childSpans.length >= 2) {
-                        const slotName = childSpans[0].innerText.trim();
-                        const itemNameEN = childSpans[1].innerText.trim();
-                        donnees.variantes[nomVariante][slotName] = { nomEN: itemNameEN };
-                    }
-                });
+                // On re-cherche le bouton vivant et visible dans le DOM actuel à chaque itération
+                const ongletVivant = Array.from(document.querySelectorAll('button, [role="tab"], span, div')).find(el => 
+                    el.innerText && el.innerText.trim() === nomVariante && el.children.length === 0 && el.offsetWidth > 0
+                );
+
+                if (ongletVivant) {
+                    ongletVivant.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    ongletVivant.click();
+                    
+                    // Pause pour laisser React rafraîchir complètement la grille d'équipement
+                    await wait(1200); 
+                    
+                    document.querySelectorAll('span[title]').forEach(span => {
+                        if (span.offsetWidth === 0 || span.offsetHeight === 0) return;
+
+                        const parent = span.parentElement;
+                        const childSpans = Array.from(parent.querySelectorAll('span[title]')).filter(s => s.offsetWidth > 0);
+                        
+                        if (childSpans.length >= 2) {
+                            const slotName = childSpans[0].innerText.trim();
+                            const itemNameEN = childSpans[1].innerText.trim();
+                            donnees.variantes[nomVariante][slotName] = { nomEN: itemNameEN };
+                        }
+                    });
+                }
             }
 
             return donnees;

@@ -510,5 +510,29 @@
   "Vulpine Aspect": {
     "nomFR": "Aspect vulpin",
     "description": "Vous récupérez [15 - 25] points de ressource principale par seconde lorsque vous disposez d’une barrière."
+  },
+  "Gohr's Devastating Grips":  {
+    "nomFR": "Poignes dévastatrices de Gohr",
+    "description": "Tourbillon inflige [75 - 90]% de dégâts supplémentaires et attire les adversaires vers vous toutes les 2 s."
+  },
+  "Ramaladni's Magnum Opus":  {
+    "nomFR": "Chef-d’œuvre de Ramaladni",
+    "description": "Les compétences infligent [0.35 - 0.50]%[x] de dégâts supplémentaires par point de fureur dont vous disposez, mais 10 points de fureur sont drainés par seconde."
+  },
+  "Heir of Perdition":  {
+    "nomFR": "Héritier de perdition",
+    "description": "Succombez à la haine et obtenez la faveur maternelle, ce qui augmente les dégâts que vous infligez de 80%[x]. Massacrez des adversaires pour brièvement dérober la faveur maternelle des personnages alliés à proximité."
+  },
+  "Ring of Starless Skies":  {
+    "nomFR": "Anneau du ciel sans étoiles",
+    "description": "Utiliser votre ressource principale réduit le coût en ressource de vos compétences et augmente vos dégâts de 10%[x] pendant 3 s, jusqu’à 50%[x] au maximum."
+  },
+  "Ring of Starless Skies":  {
+    "nomFR": "Anneau du ciel sans étoiles",
+    "description": "Utiliser votre ressource principale réduit le coût en ressource de vos compétences et augmente vos dégâts de 10%[x] pendant 3 s, jusqu’à 50%[x] au maximum."
+  },
+  "The Grandfather":  {
+    "nomFR": "Le Grand-père",
+    "description": "Augmente vos dégâts critiques de 150%[x]."
   }
 }

@@ -1,6 +1,6 @@
-// app.js
+// app.js - Imports mis à jour
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, where, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
 // Ta configuration Firebase
@@ -36,6 +36,40 @@ chargerDictionnaire();
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 let currentUser = null;
+// Dictionnaire global pour suivre les aspects possédés par l'utilisateur connecté
+let userAspects = {};
+
+// Initialisation dans l'objet global pour garantir la persistance au rafraîchissement
+window.userAspects = {};
+
+async function chargerAspectsUtilisateur() {
+    if (!currentUser) return;
+    try {
+        const docRef = doc(db, "user_aspects", currentUser.uid);
+        const docSnap = await getDoc(docRef);
+        // Synchronisation directe avec l'instance globale
+        window.userAspects = docSnap.exists() ? docSnap.data() : {};
+    } catch (error) {
+        console.error("Erreur lors du chargement des aspects utilisateur :", error);
+    }
+}
+
+// Met à jour un champ spécifique d'un aspect et sauvegarde la progression globale
+window.majAspectUtilisateur = async (aspectName, champ, valeur) => {
+    if (!currentUser) return;
+    
+    if (!window.userAspects[aspectName]) {
+        window.userAspects[aspectName] = { obtenu: false, valeur: "", maxed: false };
+    }
+    
+    window.userAspects[aspectName][champ] = valeur;
+
+    try {
+        await setDoc(doc(db, "user_aspects", currentUser.uid), window.userAspects);
+    } catch (error) {
+        console.error("Erreur lors de la sauvegarde de l'aspect :", error);
+    }
+};
 
 const importBtn = document.getElementById('importBtn');
 const resultDiv = document.getElementById('result');
@@ -52,19 +86,21 @@ loginBtn.addEventListener('click', async () => {
     }
 });
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
         currentUser = user;
         loginBtn.style.display = 'none';
         userInfo.style.display = 'inline';
         userInfo.textContent = `Connecté : ${user.displayName}`;
-        // On charge les builds de l'utilisateur dès qu'il est connecté
+        // Chargement du suivi global puis de la liste des builds
+        await chargerAspectsUtilisateur();
         chargerMesBuilds();
     } else {
         currentUser = null;
         loginBtn.style.display = 'inline';
         userInfo.style.display = 'none';
         document.getElementById('saved-builds-list').innerHTML = "Connectez-vous pour voir vos builds.";
+        userAspects = {};
     }
 });
 
@@ -112,11 +148,21 @@ window.chargerBuildSurPage = (buildId) => {
 
     window.activeBuildData = buildData;
 
-    const tagsHTML = Object.keys(buildData.variantes).map(v => 
-        `<span class="tag" style="cursor:pointer;" onclick="afficherVarianteGénérique(window.activeBuildData, '${v}')">${v}</span>`
+    // Ordre de tri de référence calqué sur le site Mobalytics
+    const ordreVariantes = ["Legendary", "Uniques", "Mythic", "Selig Overpower", "Pit/Tower ONLY"];
+    
+    // Tri forcé des clés pour contrer la réorganisation alphabétique de Firebase
+    const variantesTriees = Object.keys(buildData.variantes).sort((a, b) => {
+        const idxA = ordreVariantes.indexOf(a);
+        const idxB = ordreVariantes.indexOf(b);
+        return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+    });
+
+    const tagsHTML = variantesTriees.map(v => 
+        `<span class="tag" style="cursor:pointer;" onclick="window.afficherVarianteGénérique(window.activeBuildData, '${v}')">${v}</span>`
     ).join('');
     
-    const premiereVariante = Object.keys(buildData.variantes)[0];
+    const premiereVariante = variantesTriees[0];
 
     resultDiv.innerHTML = `
         <h2>${buildData.nom} (Chargé)</h2>
@@ -125,7 +171,7 @@ window.chargerBuildSurPage = (buildId) => {
         <p id="firebaseStatus"></p>
     `;
 
-    afficherVarianteGénérique(window.activeBuildData, premiereVariante);
+    window.afficherVarianteGénérique(window.activeBuildData, premiereVariante);
 };
 
 // Moteur de rendu partagé gérant l'ordre d'affichage, les traductions et l'injection des descriptions
@@ -156,85 +202,54 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
                 description: "⚠️ Aspect manquant dans la base de données. À ajouter manuellement." 
             };
 
+            const suivi = window.userAspects[item.nomEN] || { obtenu: false, valeur: "", maxed: false };
+
+            // Nouveau comportement : Seule la couleur de la bordure change, l'opacité reste à 100%
+            const cardStyle = suivi.obtenu 
+                ? "border-left: 4px solid #4CAF50; transition: all 0.3s;" 
+                : "border-left: 4px solid #8b0000; transition: all 0.3s;";
+
+            let descFormattee = infoAspect.description
+                .replace(/\[([^\]]+)\]%\[x\]/g, '<span style="color: #ff8800; font-weight: bold; white-space: nowrap;">[$1]%[x]</span>')
+                .replace(/\[([^\]]+)\]%\[\+\]/g, '<span style="color: #4da6ff; font-weight: bold; white-space: nowrap;">[$1]%[+]</span>')
+                .replace(/\[([^\]]+)\]/g, '<span style="color: #ffcc00; font-weight: bold; white-space: nowrap;">[$1]</span>');
+
             gearHTML += `
-                <div class="gear-item">
-                    <strong style="color: #ffcc00;">${slotFR}</strong> <br>
-                    <span style="color: #8b0000; font-weight: bold;">${infoAspect.nomFR}</span> <br>
-                    <small style="color: #666;">(${item.nomEN})</small>
-                    <p style="margin: 5px 0 0 0; font-size: 0.85em; font-style: italic; color: #aaa;">
-                        ${infoAspect.description}
+                <div class="gear-item" style="${cardStyle}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <strong style="color: #ffcc00;">${slotFR}</strong> <br>
+                            <span style="color: #8b0000; font-weight: bold;">${infoAspect.nomFR}</span> <br>
+                            <small style="color: #666;">(${item.nomEN})</small>
+                        </div>
+                        <label style="font-size: 0.85em; color: #aaa; cursor: pointer; display: flex; align-items: center; gap: 5px; user-select: none;">
+                            <input type="checkbox" data-aspect="${item.nomEN}" ${suivi.obtenu ? 'checked' : ''} 
+                                onchange="window.majAspectUtilisateur(this.dataset.aspect, 'obtenu', this.checked); 
+                                const card = this.closest('.gear-item');
+                                card.style.borderLeftColor = this.checked ? '#4CAF50' : '#8b0000';"> Possédé
+                        </label>
+                    </div>
+                    
+                    <p style="margin: 10px 0 14px 0; font-size: 0.88em; color: #eee; line-height: 1.4; background: #151515; padding: 8px; border-radius: 4px; border: 1px solid #252525;">
+                        ${descFormattee}
                     </p>
+                    
+                    <div style="display: flex; gap: 10px; align-items: center; background: #222; padding: 6px 10px; border-radius: 4px; margin-top: auto;">
+                        <span style="font-size: 0.8em; color: #bbb;">Ma valeur :</span>
+                        <input type="text" data-aspect="${item.nomEN}" value="${suivi.valeur || ''}" placeholder="Ex: 45%" 
+                            style="width: 75px; padding: 4px; background: #333; color: white; border: 1px solid #555; border-radius: 3px; font-size: 0.85em; text-align: center;" 
+                            onchange="window.majAspectUtilisateur(this.dataset.aspect, 'valeur', this.value)">
+                        
+                        <label style="font-size: 0.8em; color: #ffcc00; cursor: pointer; display: flex; align-items: center; gap: 4px; margin-left: auto; user-select: none;">
+                            <input type="checkbox" data-aspect="${item.nomEN}" ${suivi.maxed ? 'checked' : ''} 
+                                onchange="window.majAspectUtilisateur(this.dataset.aspect, 'maxed', this.checked)"> Max (Perfect)
+                        </label>
+                    </div>
                 </div>
             `;
         }
     }
     document.getElementById('gear-display').innerHTML = gearHTML;
-};
-
-// Fonction globale appelée par les boutons "Afficher"
-window.chargerBuildSurPage = (buildId) => {
-    const buildData = window.buildsSauvegardes[buildId];
-    if(!buildData) return;
-
-    window.afficherVariante = (varianteNom) => {
-            const equipement = buildData.variantes[varianteNom];
-            let gearHTML = '';
-            
-            // Dictionnaire pour forcer l'ordre d'affichage de haut en bas et traduire l'emplacement
-            const ordreEquipement = {
-                "Helm": "Casque",
-                "Chest armor": "Plastron",
-                "Gloves": "Gants",
-                "Pants": "Jambières",
-                "Boots": "Bottes",
-                "Amulet": "Amulette",
-                "Ring 1": "Anneau 1",
-                "Ring 2": "Anneau 2",
-                "Bludgeoning weapon": "Arme contondante",
-                "Slashing weapon": "Arme tranchante",
-                "Dual wield weapon 1": "Arme à une main 1",
-                "Dual wield weapon 2": "Arme à une main 2"
-            };
-            
-            // On boucle sur notre dictionnaire plutôt que sur les données brutes pour respecter l'ordre
-            for (const [slotEN, slotFR] of Object.entries(ordreEquipement)) {
-                // On vérifie si le build contient cet objet (pour éviter des erreurs si l'arme est vide)
-                if (equipement[slotEN]) {
-                    const item = equipement[slotEN];
-                    const infoAspect = aspectsDict[item.nomEN] || { 
-                        nomFR: item.nomEN, 
-                        description: "⚠️ Aspect manquant dans la base de données. À ajouter manuellement." 
-                    };
-
-                    gearHTML += `
-                        <div class="gear-item">
-                            <strong style="color: #ffcc00;">${slotFR}</strong> <br>
-                            <span style="color: var(--d4-red); font-weight: bold;">${infoAspect.nomFR}</span> <br>
-                            <small style="color: #666;">(${item.nomEN})</small>
-                            <p style="margin: 5px 0 0 0; font-size: 0.85em; font-style: italic; color: #aaa;">
-                                ${infoAspect.description}
-                            </p>
-                        </div>
-                    `;
-                }
-            }
-            document.getElementById('gear-display').innerHTML = gearHTML;
-        };
-
-    const tagsHTML = Object.keys(buildData.variantes).map(v => 
-        `<span class="tag" style="cursor:pointer;" onclick="afficherVariante('${v}')">${v}</span>`
-    ).join('');
-    
-    const premiereVariante = Object.keys(buildData.variantes)[0];
-
-    resultDiv.innerHTML = `
-        <h2>${buildData.nom} (Chargé)</h2>
-        <div class="variant-tags">${tagsHTML}</div>
-        <div class="gear-list" id="gear-display"></div>
-        <p id="firebaseStatus"></p>
-    `;
-
-    window.afficherVariante(premiereVariante);
 };
 
 importBtn.addEventListener('click', async () => {
@@ -264,14 +279,23 @@ importBtn.addEventListener('click', async () => {
         const buildData = await response.json();
         buildData.userId = currentUser.uid;
 
-        // Enregistrement des données de build au niveau de la fenêtre globale pour les rendre accessibles aux onglets
         window.activeBuildData = buildData;
 
-        const tagsHTML = Object.keys(buildData.variantes).map(v => 
-            `<span class="tag" style="cursor:pointer;" onclick="afficherVarianteGénérique(window.activeBuildData, '${v}')">${v}</span>`
+        // Ordre de tri de référence calqué sur le site Mobalytics
+        const ordreVariantes = ["Legendary", "Uniques", "Mythic", "Selig Overpower", "Pit/Tower ONLY"];
+        
+        // Tri forcé des clés dès l'importation pour un affichage propre immédiat
+        const variantesTriees = Object.keys(buildData.variantes).sort((a, b) => {
+            const idxA = ordreVariantes.indexOf(a);
+            const idxB = ordreVariantes.indexOf(b);
+            return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+        });
+
+        const tagsHTML = variantesTriees.map(v => 
+            `<span class="tag" style="cursor:pointer;" onclick="window.afficherVarianteGénérique(window.activeBuildData, '${v}')">${v}</span>`
         ).join('');
         
-        const premiereVariante = Object.keys(buildData.variantes)[0];
+        const premiereVariante = variantesTriees[0];
 
         resultDiv.innerHTML = `
             <h2>${buildData.nom}</h2>
@@ -280,14 +304,13 @@ importBtn.addEventListener('click', async () => {
             <p id="firebaseStatus"></p>
         `;
 
-        afficherVarianteGénérique(window.activeBuildData, premiereVariante);
+        window.afficherVarianteGénérique(window.activeBuildData, premiereVariante);
 
         document.getElementById('firebaseStatus').innerHTML = "Sauvegarde dans Firebase en cours...";
         const docRef = await addDoc(collection(db, "builds_diablo"), buildData);
         document.getElementById('firebaseStatus').innerHTML = 
             `<span class="success-msg">✓ Build sauvegardé avec succès ! (ID: ${docRef.id})</span>`;
 
-        // Actualisation immédiate du panneau historique après un ajout
         if (typeof chargerMesBuilds === "function") chargerMesBuilds();
 
     } catch (error) {
@@ -295,48 +318,3 @@ importBtn.addEventListener('click', async () => {
         resultDiv.innerHTML = `<p style="color: red; text-align:center;">Erreur : ${error.message}</p>`;
     }
 });
-
-window.afficherVariante = (varianteNom) => {
-            const equipement = buildData.variantes[varianteNom];
-            let gearHTML = '';
-            
-            // Dictionnaire pour forcer l'ordre d'affichage de haut en bas et traduire l'emplacement
-            const ordreEquipement = {
-                "Helm": "Casque",
-                "Chest armor": "Plastron",
-                "Gloves": "Gants",
-                "Pants": "Jambières",
-                "Boots": "Bottes",
-                "Amulet": "Amulette",
-                "Ring 1": "Anneau 1",
-                "Ring 2": "Anneau 2",
-                "Bludgeoning weapon": "Arme contondante",
-                "Slashing weapon": "Arme tranchante",
-                "Dual wield weapon 1": "Arme à une main 1",
-                "Dual wield weapon 2": "Arme à une main 2"
-            };
-            
-            // On boucle sur notre dictionnaire plutôt que sur les données brutes pour respecter l'ordre
-            for (const [slotEN, slotFR] of Object.entries(ordreEquipement)) {
-                // On vérifie si le build contient cet objet (pour éviter des erreurs si l'arme est vide)
-                if (equipement[slotEN]) {
-                    const item = equipement[slotEN];
-                    const infoAspect = aspectsDict[item.nomEN] || { 
-                        nomFR: item.nomEN, 
-                        description: "⚠️ Aspect manquant dans la base de données. À ajouter manuellement." 
-                    };
-
-                    gearHTML += `
-                        <div class="gear-item">
-                            <strong style="color: #ffcc00;">${slotFR}</strong> <br>
-                            <span style="color: var(--d4-red); font-weight: bold;">${infoAspect.nomFR}</span> <br>
-                            <small style="color: #666;">(${item.nomEN})</small>
-                            <p style="margin: 5px 0 0 0; font-size: 0.85em; font-style: italic; color: #aaa;">
-                                ${infoAspect.description}
-                            </p>
-                        </div>
-                    `;
-                }
-            }
-            document.getElementById('gear-display').innerHTML = gearHTML;
-        };
