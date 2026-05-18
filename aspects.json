@@ -1,0 +1,514 @@
+{
+  "Besieged Aspect": {
+    "nomFR": "Aspect assiégé",
+    "description": "Le taux de drainage de fortification est augmenté de [100 - 150]%[+]."
+  },
+  "Aspect of Abuse": {
+    "nomFR": "Aspect d’abus",
+    "description": "La durée des effets de perte de contrôle que vous infligez est augmentée de 50%. Tant que les adversaires sont inarrêtables, vous leur infligez [30 - 50]%[x] de dégâts supplémentaires."
+  },
+  "Accelerating Aspect": {
+    "nomFR": "Aspect d’accélération",
+    "description": "Les coups critiques avec les compétences principales augmentent votre vitesse d’attaque de [30.0 - 50.0]%[+] pendant 5 s."
+  },
+  "Adaptability Aspect": {
+    "nomFR": "Aspect d’adaptabilité",
+    "description": "Les compétences de base génèrent [15 - 25] points de ressource principale supplémentaires, une fois par compétence."
+  },
+  "Alacrity Aspect": {
+    "nomFR": "Aspect d’alacrité",
+    "description": "Le taux de temps de recharge de vos compétences défensives et de mobilité est amélioré de [50 - 75]% lorsque vous vous déplacez."
+  },
+  "Aspect of Anemia": {
+    "nomFR": "Aspect d’anémie",
+    "description": "Coup de chance : lorsque vous infligez des dégâts directs aux cibles vulnérables ou victimes de dégâts sur la durée, vous avez jusqu’à [20 - 30]% de chances de les étourdir pendant 2 s."
+  },
+  "Ghostwalker Aspect": {
+    "nomFR": "Aspect d’arpenteur spectral",
+    "description": "Lorsque vous êtes inarrêtable et pendant les 4 s qui suivent la fin de cet effet, votre vitesse de déplacement augmente de [10.0 - 20.0]%[x] et vous pouvez vous mouvoir librement."
+  },
+  "Conceited Aspect": {
+    "nomFR": "Aspect d’arrogance",
+    "description": "Vous infligez [40 - 60]%[x] de dégâts supplémentaires tant que vous avez une barrière active."
+  },
+  "Frenzied Assault Aspect": {
+    "nomFR": "Aspect d’assaut frénétique",
+    "description": "Vos créatures invoquées obtiennent [35 - 50]%[+] de vitesse d’attaque en plus."
+  },
+  "Aspect of Audacity": {
+    "nomFR": "Aspect d’audace",
+    "description": "Lorsqu’il y a au moins 5 adversaires à proximité, vous les étourdissez pendant [2.5 - 4.5] s. Ne se produit qu’une fois toutes les 20 s."
+  },
+  "Aspect of Efficiency": {
+    "nomFR": "Aspect d’efficacité",
+    "description": "Coup de chance : lorsque vous utilisez une compétence de base, vous avez [35.0 - 50.0]% de chances que votre prochaine compétence principale ne coûte pas de ressource principale. Cet effet peut se cumuler jusqu’à 3 fois."
+  },
+  "Aspect of Forward Momentum": {
+    "nomFR": "Aspect d’élan en avant",
+    "description": "Vos effets de repoussement et d’attraction vous octroient [25 - 35]%[x] de vitesse de déplacement pendant 4 s."
+  },
+  "Deep Slash Aspect": {
+    "nomFR": "Aspect d’entaille profonde",
+    "description": "Vos dégâts sur la durée infligent [40.0 - 60.0]%[x] de dégâts supplémentaires aux cibles vulnérables."
+  },
+  "Aspect of Exorcism": {
+    "nomFR": "Aspect d’exorcisme",
+    "description": "Coup de chance : vous avez jusqu’à [30 - 45]% de chances d’exécuter les cibles adverses."
+  },
+  "Aspect of Delayed Extinction": {
+    "nomFR": "Aspect d’extinction retardée",
+    "description": "Avec la réduction du temps de recharge, les dégâts de Jet puissant et Poigne de fer deviennent multiplicatifs, et sont également augmentés de 25%[x]. De plus, les compétences de maîtrise d’arme infligent [15 - 35]%[x] de dégâts supplémentaires."
+  },
+  "Berserker's Bleed Aspect": {
+    "nomFR": "Aspect d’hémorragie du berserker",
+    "description": "Tant que vous êtes sous l’effet de Rage du berserker, vos dégâts directs infligent [40 - 60]% de dégâts de saignement supplémentaires en 5 s."
+  },
+  "Needleflare Aspect": {
+    "nomFR": "Aspect d’hirsutisme",
+    "description": "Les dégâts d’épines infligés ont [40 - 60]% de chances d’infliger des dégâts aux adversaires autour de vous et de vos serviteurs."
+  },
+  "Starlight Aspect": {
+    "nomFR": "Aspect d’immortalité",
+    "description": "L’utilisation d’une compétence vous rend [2.0 - 3.0]% de votre maximum de points de vie. Ce bonus est doublé lorsque vous êtes victime de blessure."
+  },
+  "Furious Impulse Aspect": {
+    "nomFR": "Aspect d’impulsion furieuse",
+    "description": "Chaque fois que vous changez d’arme, vous gagnez [7 - 11] points de fureur"
+  },
+  "Devastating Fire Aspect": {
+    "nomFR": "Aspect d’incendie dévastateur",
+    "description": "Charge obtient une charge supplémentaire. Chaque cible qu’elle touche explose en infligeant [104 - 194] points de dégâts de feu aux adversaires à proximité."
+  },
+  "Steadfast Berserker's Aspect": {
+    "nomFR": "Aspect de berserker robuste",
+    "description": "Vous obtenez [4.0 - 6.0]% de votre maximum de points de vie sous forme de fortification chaque fois que vous infligez des dégâts directs sous l’effet de Rage du berserker."
+  },
+  "Aspect of Quicksand": {
+    "nomFR": "Aspect de bourbier entravant",
+    "description": "Les cibles adverses à proximité ou celles auxquelles vous infligez des dégâts indirects sont ralenties de [50 - 70]% pendant 3 s. Vous infligez [20 - 30]% de dégâts supplémentaires aux cibles adverses ralenties."
+  },
+  "Earthstriker's Aspect": {
+    "nomFR": "Aspect de bourreau",
+    "description": "Vos accablements provoquent un tremblement de terre toutes les 4 s, qui inflige [300 - 702] points de dégâts physiques en 4 s. Les dégâts de vos tremblements de terre sont augmentés de 5%[x] pour chaque tranche de 100 points de force que vous possédez, jusqu’à un maximum de 100%[x]."
+  },
+  "Aspect of Nebulous Brewing": {
+    "nomFR": "Aspect de brassage nébuleux",
+    "description": "Les potions de soins octroient [20 - 30]%[x] de vitesse de déplacement pendant 8 s. Chaque fois que vous parcourez 80 m, vous générez une potion de soins."
+  },
+  "Skullbreaker's Aspect": {
+    "nomFR": "Aspect de brise-crâne",
+    "description": "Lorsque vous étourdissez une cible qui saigne, vous lui infligez [40 - 60]% du total de dégâts de saignement sous forme de dégâts physiques."
+  },
+  "Aspect of Bul-Kathos": {
+    "nomFR": "Aspect de Bul-Kathos",
+    "description": "Bond génère un tremblement de terre qui inflige [206 - 326] points de dégâts physiques en 4 s. Lorsque vous vous trouvez au milieu d’un tremblement de terre et pendant 4 s après l’avoir quitté, vous gagnez 30% de réduction des dégâts."
+  },
+  "Aspect of Inner Calm": {
+    "nomFR": "Aspect de calme intérieur",
+    "description": "Vous infligez jusqu’à [50 - 75]%[x] de dégâts supplémentaires lorsque vous vous tenez immobile."
+  },
+  "Aspect of Channeling": {
+    "nomFR": "Aspect de canalisation",
+    "description": "Lorsque vous canalisez une compétence, tous les dégâts sont augmentés de [50 - 70]%[x]."
+  },
+  "Troop Commander's Aspect": {
+    "nomFR": "Aspect de capitaine des troupes",
+    "description": "Vos dégâts d’invocation sont augmentés de [50 - 70]%[x]."
+  },
+  "Aspect of Warmth": {
+    "nomFR": "Aspect de chaleur",
+    "description": "Pour chaque adversaire en feu à proximité, vous recevez [2.0 - 3.0]% de votre maximum de points de vie par seconde."
+  },
+  "Ancestral Charge Aspect": {
+    "nomFR": "Aspect de charge ancestrale",
+    "description": "L’utilisation de Charge invoque 4 Anciens qui chargent avec vous et infligent chacun [20 - 40]%[x] des dégâts normaux. Vos invocations infligent [20 - 40]% de dégâts supplémentaires."
+  },
+  "Aspect of Coagulation": {
+    "nomFR": "Aspect de coagulation",
+    "description": "Lorsque vous bénéficiez d’une fortification, vous obtenez 30%[+] de génération de fortification et [15 - 20]% de réduction des dégâts supplémentaires."
+  },
+  "Aspect of Limitless Rage": {
+    "nomFR": "Aspect de colère débordante",
+    "description": "Lorsque vous dépensez 100 points de fureur, les dégâts de vos compétences de combat augmentent de [40 - 60]%[x] pendant 4 s."
+  },
+  "Commanding Assault Aspect": {
+    "nomFR": "Aspect de commandement d’assaut",
+    "description": "Vos cris soignent également les personnages alliés d’un montant équivalent à [4.0 - 6.0]%[x] de leur maximum de points de vie par seconde."
+  },
+  "Aspect of Tenacious Focus": {
+    "nomFR": "Aspect de concentration tenace",
+    "description": "Vous gagnez [1.813 - 5.439] points de dégâts d’épines lorsque vous canalisez une compétence et pendant les 3 s suivantes."
+  },
+  "Unholy Confederation Aspect": {
+    "nomFR": "Aspect de confédération impie",
+    "description": "Vous obtenez [1.0 - 1.5]%[+] de vitesse de déplacement supplémentaire par créature invoquée. L’utilisation d’une compétence d’invocation double ce bonus pendant 3 s."
+  },
+  "Calculated Strikes Aspect": {
+    "nomFR": "Aspect de coups calculés",
+    "description": "Après avoir changé d’arme 5 fois, vous obtenez [20 - 30]% de réduction des dégâts pendant 10 s."
+  },
+  "Aspect of Cover": {
+    "nomFR": "Aspect de couvert",
+    "description": "L’utilisation d’une compétence défensive vous octroie [30 - 50]%[+] de résistance supplémentaire à tous les éléments pendant 10 s."
+  },
+  "Cremation Aspect": {
+    "nomFR": "Aspect de crémation",
+    "description": "Lorsque vous disposez de 4 cumuls ou plus d’accablement, vos compétences de feu infligent [70 - 100]%[x] de dégâts supplémentaires."
+  },
+  "Iron Warrior Aspect": {
+    "nomFR": "Aspect de défense de fer",
+    "description": "Galvanisation octroie l’état inarrêtable, ainsi que [20 - 40]% de réduction des dégâts."
+  },
+  "Aspect of Disobedience": {
+    "nomFR": "Aspect de désobéissance",
+    "description": "Vos dégâts sur la durée vous octroient [1.0 - 1.5]% de réduction des dégâts pendant 2 s. Cet effet peut se cumuler jusqu’à 30 fois."
+  },
+  "Elemental Fate Aspect": {
+    "nomFR": "Aspect de destin élémentaire",
+    "description": "Vous infligez [40 - 60]%[x] de dégâts supplémentaires d’un ensemble de types de dégâts pendant 7 s. Cet effet alterne aléatoirement entre 2 ensembles : feu, foudre, sacré et physiques ; froid, poison et ombre. Le destin peut vous sourire et vous accorder le même bonus plusieurs fois. Lorsque celui-ci se cumule jusqu’au maximum de 6 fois, c’est votre jour de chance !"
+  },
+  "Aspect of Domination": {
+    "nomFR": "Aspect de domination",
+    "description": "Lorsque vous infligez un effet de perte de contrôle à une cible adverse, vous obtenez [1 - 2] cumul de détermination."
+  },
+  "Duelist's Aspect": {
+    "nomFR": "Aspect de duelliste",
+    "description": "Lorsque vous maniez une arme à une main, votre vitesse d’attaque est augmentée de [30 - 50]%[+]."
+  },
+  "Battle Fervor's Aspect": {
+    "nomFR": "Aspect de ferveur du combat",
+    "description": "Les compétences de combat octroient Rage du berserker pendant 5 s lorsqu’elles touchent pour la première fois. Vous obtenez [10.0 - 15.0]% de réduction des dégâts lorsque vous êtes sous l’effet de Rage du berserker."
+  },
+  "Incendiary Fissures Aspect": {
+    "nomFR": "Aspect de fissures incendiaires",
+    "description": "Vos tremblements de terre infligent des dégâts de feu augmentés de [40 - 60]%[x]."
+  },
+  "Battle-Mad Aspect": {
+    "nomFR": "Aspect de folie guerrière",
+    "description": "Après avoir changé d’arme 5 fois, vous obtenez Rage du berserker pendant 4 s. De plus, vous infligez [15.0 - 20.0]%[x] de dégâts supplémentaires tant que Rage du berserker est active."
+  },
+  "Aspect of Ancestral Force": {
+    "nomFR": "Aspect de force ancestrale",
+    "description": "Marteau des Anciens se propage vers l’extérieur, infligeant [30 - 60]%[x] de dégâts supplémentaires. Ce bonus est doublé contre les boss."
+  },
+  "Aspect of Heavenly Strength": {
+    "nomFR": "Aspect de force céleste",
+    "description": "Lorsque vous maniez une arme à deux mains, vous obtenez [30 - 40]% de réduction des dégâts."
+  },
+  "Steel Fragments Aspect": {
+    "nomFR": "Aspect de fragments d’acier",
+    "description": "Poigne de fer et Maelström d’acier lancent jusqu’à 10 éclats de métal qui infligent [120 - 420] points de dégâts physiques."
+  },
+  "Edgemaster's Aspect": {
+    "nomFR": "Aspect de funambule",
+    "description": "Les compétences infligent jusqu’à [40 - 60]%[x] de dégâts supplémentaires en fonction de votre ressource principale disponible à leur lancement, pour un résultat maximal lorsque votre ressource principale est au maximum."
+  },
+  "Aspect of Berserk Fury": {
+    "nomFR": "Aspect de fureur du berserker",
+    "description": "Vous obtenez [7.0 - 11.0] points de fureur par seconde tant que vous êtes sous l’effet de Rage du berserker."
+  },
+  "Heavy Hitting Aspect": {
+    "nomFR": "Aspect de gros bras",
+    "description": "Les compétences qui créent des éclats de fer, des tremblements de terre ou des tourbillons de poussière infligent [40.0 - 60.0]%[x] de dégâts supplémentaires."
+  },
+  "Orange Herald's Aspect": {
+    "nomFR": "Aspect de héraut orange",
+    "description": "Lorsque vous infligez des dégâts avec une compétence principale, le temps de recharge de l’une de vos compétences est réduit de [0.7 - 1.0] s."
+  },
+  "Aspect of the Expectant": {
+    "nomFR": "Aspect de l’attente",
+    "description": "Les compétences de base augmentent vos dégâts de [4.0 - 6.0]%[x] pendant 4. Cet effet est cumulable jusqu’à 10 fois."
+  },
+  "Aspect of Glynn's Anvil": {
+    "nomFR": "Aspect de l’enclume de Glynn",
+    "description": "Votre maximum de détermination est augmenté de 2 et vous obtenez [2.5 - 4]% de réduction des dégâts par cumul de détermination."
+  },
+  "Aspect of the Agile Spirit": {
+    "nomFR": "Aspect de l’esprit vif",
+    "description": "Lorsque vous perdez de la détermination, vous obtenez [3.0 - 5.0]%[x] de vitesse de déplacement supplémentaire pendant 10 s, jusqu’à un maximum de 5 fois."
+  },
+  "Aspect of the Umbral": {
+    "nomFR": "Aspect de l’ombre",
+    "description": "Lorsque vous étourdissez des adversaires, vous générez [4.0 - 6.0] points de ressource principale."
+  },
+  "Fortress Aspect": {
+    "nomFR": "Aspect de la forteresse",
+    "description": "Vous obtenez jusqu’à [40 - 60]% de réduction des dégâts en fonction de la quantité de blessure dont vous souffrez."
+  },
+  "Wind Striker Aspect": {
+    "nomFR": "Aspect de la frappe du vent",
+    "description": "Les coups critiques augmentent votre vitesse de déplacement de [30.0 - 50.0]%[+] pendant 1 s, jusqu’à 6 s."
+  },
+  "Aspect of Unbound Fury 1": {
+    "nomFR": "Aspect de la fureur déchaînée",
+    "description": "L’utilisation d’une compétence ultime augmente les dégâts de vos compétences ultimes de [6.0 - 10.0]%[x], jusqu’à un maximum de [60 - 100]%[x]. Lorsque vous avez cumulé cet effet 10 fois, il se réinitialise tout comme vos temps de recharge."
+  },
+  "Aspect of Unbound Fury 2": {
+    "nomFR": "Aspect de la fureur déchaînée (Ressource)",
+    "description": "L’utilisation d’une compétence ultime réduit les temps de recharge de vos autres compétences de [6.5 - 10.0] s."
+  },
+  "Starlight Aspect": {
+    "nomFR": "Aspect de lumière stellaire",
+    "description": "Toutes les tranches de 10% de vos points de vie soignés, vous obtenez [20 - 30]% de réduction de coût en ressource principale pendant 2 s, jusqu’à un maximum de 6 s."
+  },
+  "Weapon Master's Aspect": {
+    "nomFR": "Aspect de maître d’armes",
+    "description": "Les compétences de maîtrise d’arme étourdissent les cibles adverses pendant [1.0 - 1.5] s. Celles-ci ne peuvent être étourdies de cette façon qu’une fois toutes les 5 s. Vos compétences de maîtrise d’arme ont une charge de plus et infligent [10 - 15]%[x] de dégâts supplémentaires."
+  },
+  "Aspect of Self-Control": {
+    "nomFR": "Aspect de maîtrise de soi",
+    "description": "Lorsque vous disposez de plus de 50 points de ressource principale, vous infligez [15.0 - 20.0]%[x] de dégâts supplémentaires et obtenez l’effet Rage du berserker, mais vous perdez 3 points de régénération de ressource principale."
+  },
+  "Slaughter Aspect": {
+    "nomFR": "Aspect de massacre",
+    "description": "Votre vitesse de déplacement est augmentée de [30.0 - 45.0]%[+]. Lorsque les adversaires à proximité vous infligent des dégâts, vous subissez un ralentissement de 30% pendant 2 s."
+  },
+  "Juggernaut's Aspect": {
+    "nomFR": "Aspect de mastodonte",
+    "description": "Votre armure totale augmente de [100 - 150]%[+], mais le temps de recharge d’Esquive augmente de 100%."
+  },
+  "Elusive Menace Aspect": {
+    "nomFR": "Aspect de menace insaisissable",
+    "description": "Vos chances d’esquiver augmentent de [20 - 30]%[+] lorsque vous subissez des dégâts. Les esquives réussies réinitialisent ce bonus."
+  },
+  "Metamorphosis Aspect": {
+    "nomFR": "Aspect de métamorphose",
+    "description": "Esquive vous transforme en une nuée de chauves-souris qui inflige 300 de dégâts physiques et applique une malédiction vampirique aux adversaires sur votre trajectoire. Le temps de recharge d’Esquive est augmenté de [10.0 - 4.0]."
+  },
+  "Aspect of Giant Strides": {
+    "nomFR": "Aspect de pas de géant",
+    "description": "Réduit le temps de recharge de Bond de [1.3 - 3.5] s par cible touchée, jusqu’à un maximum de 7 s. Atteindre un boss avec cette compétence octroie le maximum de réduction."
+  },
+  "Aspect of Sorrowful Treads": {
+    "nomFR": "Aspect de pas dolent",
+    "description": "Vous obtenez jusqu’à [1.0 - 1.5]%[+] supplémentaires de vitesse de déplacement et de vitesse de dégâts sur la durée pour chaque adversaire à proximité victime de vos dégâts sur la durée. Cet effet peut se cumuler jusqu’à 25 fois."
+  },
+  "Aspect of Persecution": {
+    "nomFR": "Aspect de persécution",
+    "description": "Vos compétences utilisant des armes contondantes infligent [40 - 60]%[x] de dégâts supplémentaires si la cible est neutralisée ou vulnérable."
+  },
+  "Aspect of Perpetual Stomping": {
+    "nomFR": "Aspect de piétinement perpétuel",
+    "description": "Blesser une cible ennemie avec Coup de pied ou Choc terrestre réinitialise le temps de recharge de Bond."
+  },
+  "Wildbolt Aspect": {
+    "nomFR": "Aspect de projection furieuse",
+    "description": "Toutes les [3.5 - 1.5] s, vous attirez les adversaires à distance vers vous et leur infligez 15%[x] de dégâts supplémentaires pendant 3 s. Cet effet ne peut pas se produire lorsque vous êtes sous Camouflage."
+  },
+  "Vehement Brawler's Aspect": {
+    "nomFR": "Aspect de querelleur",
+    "description": "L’utilisation d’une compétence ultime augmente vos dégâts de [35 - 55]%[x] pendant 8 s. Vos compétences ultimes bénéficient de 2 rangs supplémentaires."
+  },
+  "Aspect of Burning Rage": {
+    "nomFR": "Aspect de rage ardente",
+    "description": "Tant que vous êtes sous l’effet de Rage du berserker, vous infligez [68 - 124] points de dégâts de feu par seconde aux adversaires à proximité."
+  },
+  "Aspect of Infinite Rage": {
+    "nomFR": "Aspect de rage infinie",
+    "description": "Chaque point de fureur que vous générez augmente les dégâts que vous infligez de [1.00 - 1.50]%[x]. Ce bonus est perdu au bout de 4 s."
+  },
+  "Aspect of Voracious Rage 2": {
+    "nomFR": "Aspect de rage vorace",
+    "description": "Lorsque vous tuez une cible avec une compétence principale, vous recevez [20.0 - 30.0]% de son coût de base. Cet effet ne peut se produire qu’une fois par utilisation."
+  },
+  "Tidal Aspect": {
+    "nomFR": "Aspect de raz-de-marée",
+    "description": "Votre maximum d’accablement est augmenté de [2 - 4] lorsque vous bénéficiez d’une fortification."
+  },
+  "Aspect of Reanimation": {
+    "nomFR": "Aspect de réanimation",
+    "description": "Les dégâts infligés par vos créatures invoquées augmentent tant qu’elles sont en vie, jusqu’à atteindre [60 - 90]%[x] après 10 s."
+  },
+  "Aspect of Vocalized Empowerment": {
+    "nomFR": "Aspect de renforcement exprimé",
+    "description": "Vos compétences de cri octroient [10.0 - 15.0] de génération de ressource principale quand elles sont actives."
+  },
+  "Aspect of Success": {
+    "nomFR": "Aspect de réussite",
+    "description": "Vos chances d’obtenir un coup de chance contre les cibles élites sont augmentées de [15.0 - 20.0]%[x]."
+  },
+  "Aspect of Mobilizing Reversal": {
+    "nomFR": "Aspect de revers mobilisateur",
+    "description": "Vous avez [60 - 80]% de chances d’obtenir 1 point de férocité lorsqu’une cible adverse subit l’un de vos effets de perte de contrôle ou lorsque vous stupéfiez un boss."
+  },
+  "Aspect of Arbitrary Rupture": {
+    "nomFR": "Aspect de rupture arbitraire",
+    "description": "Les dégâts sur la durée voient leur durée et les dégâts qu’ils infligent augmenter de [20 - 30]%[x]."
+  },
+  "Blood Boiling Aspect": {
+    "nomFR": "Aspect de sang bouillonnant",
+    "description": "Toutes les 6 s, vous obtenez 1 cumul d’accablement. Lorsque vous accablez, vous faites apparaître 1 goutte de sang instable. Ramassez-les pour les faire exploser et infliger [675 - 974] points de dégâts physiques autour de vous."
+  },
+  "Sapping Aspect": {
+    "nomFR": "Aspect de sape",
+    "description": "Vos points de ressource principale augmentent de [1.0 - 1.5] par seconde pour chaque adversaire à proximité victime de vos dégâts sur la durée."
+  },
+  "Aspect of Solidity": {
+    "nomFR": "Aspect de solidité",
+    "description": "Vous obtenez 4%[+] d’armure supplémentaire et [145 - 218] épines pour chaque tranche de 1% manquante de votre maximum de points de vie."
+  },
+  "Aspect of Herculean Spectacle": {
+    "nomFR": "Aspect de spectacle herculéen",
+    "description": "Jet puissant inflige [25 - 45]%[x] de dégâts supplémentaires et projette 2 armes de plus."
+  },
+  "Overheating Aspect": {
+    "nomFR": "Aspect de surchauffe",
+    "description": "Les cibles adverses en feu que vous éliminez ont jusqu’à 10% de chances de vous octroyer de l’accablement. Vos dégâts de feu sont augmentés de [15.0 - 20.0]%[x]."
+  },
+  "Aspect of Sundered Ground": {
+    "nomFR": "Aspect de terre scindée",
+    "description": "Toutes les 20 s, votre prochaine utilisation de Soulèvement accable obligatoirement et inflige [50 - 70]%[x] de dégâts supplémentaires. Les coups critiques de Soulèvement infligés à des élites réduisent ce laps de temps de 1 s."
+  },
+  "Accursed Touch Aspect 2": {
+    "nomFR": "Aspect de toucher maudit",
+    "description": "Coup de chance : vos compétences ont jusqu’à [30.0 - 40.0]% de chances d’infliger aux adversaires une malédiction vampirique. Toute cible affectée par une malédiction vampirique est également vulnérable. Les âmes stockées par la malédiction vampirique infligent [40.0 - 60.0]% points de dégâts supplémentaires."
+  },
+  "Aspect of Omnipotence": {
+    "nomFR": "Aspect de toute-puissance",
+    "description": "Les compétences de base octroient [20 - 30]% de réduction des dégâts pendant 4 s."
+  },
+  "Earthquakes Aspect": {
+    "nomFR": "Aspect de tremblements de terre",
+    "description": "Choc terrestre génère un tremblement de terre qui inflige [167 - 287] points de dégâts physiques en 4 s. Lorsque vous vous trouvez au milieu d’un tremblement de terre et pendant 4 s après l’avoir quitté, vous infligez [20 - 60]%[x] de dégâts supplémentaires. Vos tremblements de terre infligent [20 - 60]% de dégâts supplémentaires."
+  },
+  "Aspect of the Grasping Whirlwind": {
+    "nomFR": "Aspect de trombe centripète",
+    "description": "Tourbillon attire les adversaires vers vous toutes les [6.0 - 3.0] s."
+  },
+  "Aspect of the Dire Whirlwind": {
+    "nomFR": "Aspect de trombe mortelle",
+    "description": "Les chances d’infliger un coup critique et les dégâts critiques de Tourbillon sont augmentés de [5.5 - 10]%[x] par seconde de canalisation de la compétence, jusqu’à un maximum de [28 - 50]%[x]."
+  },
+  "Fierce Winds Aspect": {
+    "nomFR": "Aspect de vents violents",
+    "description": "Vos compétences de cri créent 3 tourbillons de poussière qui infligent [60 - 120] points de dégâts aux adversaires sur leur passage. Vos tourbillons de poussière sont [5 - 25]% plus grands et infligent 1%[x] de dégâts supplémentaires par tranche de 1% d’agrandissement."
+  },
+  "Veteran Brawler's Aspect": {
+    "nomFR": "Aspect de vétéran du combat",
+    "description": "Chaque fois qu’une compétence de combat inflige des dégâts directs à une cible, votre utilisation de Charge, Bond ou Coup de pied inflige [4.0 - 10.0]%[x] de dégâts supplémentaires pendant 5 s, jusqu’à un maximum de [20 - 50]%[x]."
+  },
+  "Aspect of Victory": {
+    "nomFR": "Aspect de victoire",
+    "description": "Vous infligez [60 - 90]%[x] de dégâts supplémentaires aux cibles adverses neutralisées."
+  },
+  "Aspect of Retribution": {
+    "nomFR": "Aspect de vindicte",
+    "description": "Les cibles à distance ont 20% de chances d’être étourdies pendant 2 s lorsqu’elles vous infligent des dégâts. Vous infligez [15 - 25]%[x] de dégâts supplémentaires aux cibles à distance."
+  },
+  "Thundering Voice Aspect": {
+    "nomFR": "Aspect de voix tonitruante",
+    "description": "La durée des effets de vos compétences de cri est augmentée de [20 - 30]%[+] et ils affaiblissent les adversaires pendant 5 s."
+  },
+  "Aspect of Ancestral Echoes": {
+    "nomFR": "Aspect des échos ancestraux",
+    "description": "Coup de chance : Bond, Soulèvement et Tourbillon, ont jusqu’à [45 - 65]% de chances d’invoquer un Ancien qui répétera la même compétence. Cet effet ne peut se produire qu’une fois toutes les 5 s. Vos invocations infligent [20 - 40]% de dégâts supplémentaires."
+  },
+  "Progenitor's Aspect": {
+    "nomFR": "Aspect des progénitrices",
+    "description": "Vos compétences qui invoquent des Anciens infligent [40.0 - 60.0]%[x] de dégâts supplémentaires."
+  },
+  "Devilish Aspect": {
+    "nomFR": "Aspect diabolique",
+    "description": "Après la génération de 100 points de fureur, les prochains dégâts directs que vous infligez génèrent 2 tourbillons de poussière qui infligent [60 - 105] points de dégâts aux adversaires dans leur sillage."
+  },
+  "Bear Clan Berserker's Aspect": {
+    "nomFR": "Aspect du berserker de l’Ours",
+    "description": "Les éliminations sous l’effet de Rage du berserker réduisent le temps de recharge de vos compétences de combat de [50 - 75]% pendant 2 s."
+  },
+  "Bold Chieftain's Aspect": {
+    "nomFR": "Aspect du chef de guerre",
+    "description": "Les temps de recharge de vos compétences de cri sont réduits de [8.0 - 10.0] s."
+  },
+  "Brawler's Aspect 2": {
+    "nomFR": "Aspect du combat",
+    "description": "Les cibles tuées dans les 2 s après avoir été touchées par Coup de pied ou Charge explosent en infligeant [375 - 488] points de dégâts aux adversaires à proximité."
+  },
+  "Moonrise Aspect": {
+    "nomFR": "Aspect du crépuscule",
+    "description": "Lorsque vous infligez des dégâts avec une compétence de base, vous recevez 4% de vitesse d’attaque supplémentaire pendant 10 s, jusqu’à un maximum de 5 fois. Une fois ce seuil atteint, vous sombrez dans une rage de sang vampirique et obtenez un bonus de [40 - 60]%[x] aux dégâts des compétences de base et de 15% à la vitesse de déplacement pendant 10 s."
+  },
+  "Deluge Aspect": {
+    "nomFR": "Aspect du déluge",
+    "description": "Les cumuls d’accablement augmentent votre maximum de ressource principale de [6 - 8] et sa régénération de 2."
+  },
+  "Windlasher Aspect": {
+    "nomFR": "Aspect du fouette-vent",
+    "description": "L’utilisation de Coup double génère un tourbillon de poussière qui inflige [53 - 83] points de dégâts aux adversaires dans son sillage."
+  },
+  "Earthstriker's Aspect 2": {
+    "nomFR": "Aspect du frappe-terre",
+    "description": "Vous obtenez 1 cumul d’accablement chaque fois que vous changez d’arme. Vous infligez [15.5 - 20.5]%[x] de dégâts supplémentaires tant que vous bénéficiez d’accablement."
+  },
+  "Unrelenting Armsmaster's Aspect": {
+    "nomFR": "Aspect du maître d’armes intransigeant",
+    "description": "Votre génération de fureur est augmentée de [35.0 - 75.0]%[x] et le coût en fureur est réduit de 15% lorsque tous les bonus de dégâts de la compétence passive principale Arsenal ambulant sont actifs."
+  },
+  "Aspect of the Protector 2": {
+    "nomFR": "Aspect du Protecteur",
+    "description": "Le fait de blesser une cible adverse élite vous octroie une barrière équivalente à [70 - 100]% de votre maximum de points de vie pendant 10 s. Cet effet ne peut se produire qu’une fois toutes les 20 s."
+  },
+  "Aspect of Iron Blood": {
+    "nomFR": "Aspect du sang de fer",
+    "description": "Vous gagnez [3.9 - 5.9]% de réduction des dégâts par adversaire proche qui saigne, jusqu’à une réduction maximum de [20 - 30]%."
+  },
+  "War-Bringer Aspect": {
+    "nomFR": "Aspect du sentier de la guerre",
+    "description": "Lorsque vous disposez de charges d’accablement, vos attaques d’arme contondante infligent [40 - 60]%[x] de dégâts supplémentaires."
+  },
+  "Dust Devil's Aspect": {
+    "nomFR": "Aspect du tourbillon de poussière",
+    "description": "Tourbillon laisse derrière lui des tourbillons de poussière qui infligent [120 - 210] points de dégâts aux adversaires dans leur sillage. Les cibles touchées par les tourbillons de poussière subissent 25%[x] de dégâts supplémentaires de toutes vos autres sources pendant 3 s."
+  },
+  "Snowveiled Aspect": {
+    "nomFR": "Aspect du voile de neige",
+    "description": "Tant que vous bénéficiez d’une barrière, vous obtenez [20 - 30]% de réduction des dégâts."
+  },
+  "Crushing Aspect": {
+    "nomFR": "Aspect écrasant",
+    "description": "Lorsque vous bénéficiez d’une fortification, vous infligez [45 - 65]%[x] de dégâts supplémentaires."
+  },
+  "Eluding Aspect": {
+    "nomFR": "Aspect élusif",
+    "description": "Si vous subissez un effet de perte de contrôle en étant victime de blessures, vous devenez inarrêtable pendant 4 s. Cet effet a un temps de recharge de [6 - 4] s."
+  },
+  "Obscured Aspect": {
+    "nomFR": "Aspect embrumé",
+    "description": "L’utilisation d’une potion de soins augmente votre résistance à tous les éléments de [20 - 30]%[+] pendant 8 s. Vous pouvez désormais boire des potions de soins même lorsque vous disposez de tous vos points de vie."
+  },
+  "Fierce Aspect": {
+    "nomFR": "Aspect farouche",
+    "description": "Votre nombre maximum de cumuls de férocité est augmenté de [4 - 6]."
+  },
+  "Inexorable Aspect": {
+    "nomFR": "Aspect inexorable",
+    "description": "Vos renversements augmentent les dégâts que subissent les adversaires de votre part de [50 - 60]%[x] pendant 6 s."
+  },
+  "Irrepressible Aspect": {
+    "nomFR": "Aspect irrépressible",
+    "description": "Lorsque vous utilisez une compétence de maîtrise d’arme, vous bénéficiez d’une fortification équivalente à 5% de votre maximum de points de vie. Votre maximum de points de vie augmente de [30 - 45]%[+]."
+  },
+  "Craven Aspect 2": {
+    "nomFR": "Aspect lâche",
+    "description": "Chaque cible adverse entravée à proximité vous octroie [1.0 - 1.5]%[+] de vitesse de déplacement supplémentaire."
+  },
+  "Perpetual Aspect": {
+    "nomFR": "Aspect perpétuel",
+    "description": "Chaque adversaire sous l’effet d’une perte de contrôle à proximité vous octroie [2.0 - 3.0]% de réduction des dégâts, jusqu’à un maximum de 13 adversaires."
+  },
+  "Luckbringer Aspect": {
+    "nomFR": "Aspect porte-bonheur",
+    "description": "Vos chances d’obtenir un coup de chance sont augmentées de [10 - 30]%[+] tant que tous vos bonus de dégâts de votre compétence passive principale Arsenal ambulant sont actifs."
+  },
+  "Protective Aspect": {
+    "nomFR": "Aspect protecteur",
+    "description": "Lorsque vous n’êtes pas en bonne santé, vous invoquez une bulle protectrice qui rend insensible l’ensemble des personnages-joueurs à l’intérieur. La bulle dure [4.0 - 6.0] s et ne peut se former qu’une fois toutes les 90 s."
+  },
+  "Restless Aspect": {
+    "nomFR": "Aspect remuant",
+    "description": "Les adversaires subissent [7.5 - 12.5]% de dégâts sur la durée supplémentaires pour chaque seconde passée sous un effet de dégâts sur la durée, jusqu’à un maximum de 10 s."
+  },
+  "Vulpine Aspect": {
+    "nomFR": "Aspect vulpin",
+    "description": "Vous récupérez [15 - 25] points de ressource principale par seconde lorsque vous disposez d’une barrière."
+  }
+}

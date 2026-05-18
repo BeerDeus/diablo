@@ -56,7 +56,16 @@
             font-size: 0.9em;
             color: #ffcc00;
         }
-        .gear-list { display: flex; flex-direction: column; gap: 10px; }
+        .gear-list { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+        }
+        
+        /* Petit ajustement pour que ça passe sur une seule colonne sur téléphone */
+        @media (max-width: 600px) {
+            .gear-list { grid-template-columns: 1fr; }
+        }
         .gear-item {
             background-color: var(--d4-grey);
             padding: 15px;
@@ -83,6 +92,13 @@
 
         <div id="result">
             </div>
+
+        <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
+            <h2 style="color: var(--d4-red);">Mes Builds Sauvegardés</h2>
+            <div id="saved-builds-list" style="display: flex; flex-direction: column; gap: 10px;">
+                Connectez-vous pour voir vos builds.
+            </div>
+        </div>
     </div>
 
     <script type="module" src="app.js"></script>
