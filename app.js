@@ -51,7 +51,6 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Fonction d'importation et de gestion dynamique de l'affichage
 importBtn.addEventListener('click', async () => {
     const url = document.getElementById('buildUrl').value;
     
@@ -60,7 +59,6 @@ importBtn.addEventListener('click', async () => {
         return;
     }
 
-    // Vérification que l'utilisateur est bien connecté
     if (!currentUser) {
         alert("Tu dois être connecté pour sauvegarder un build.");
         return;
@@ -79,10 +77,16 @@ importBtn.addEventListener('click', async () => {
         
         const buildData = await response.json();
         
-        // Liaison du build à l'ID de l'utilisateur connecté
+        // On affiche les données dans la console (F12) pour vérifier ce que le serveur nous envoie
+        console.log("Données reçues du serveur :", buildData);
+
+        // Sécurité : si la propriété variantes n'existe pas, on bloque l'exécution proprement
+        if (!buildData.variantes) {
+            throw new Error("Les données reçues sont invalides. As-tu bien redémarré server.js ?");
+        }
+        
         buildData.userId = currentUser.uid;
 
-        // Fonction globale pour mettre à jour l'équipement affiché lors du clic sur un tag
         window.afficherVariante = (varianteNom) => {
             const equipement = buildData.variantes[varianteNom];
             let gearHTML = '';
@@ -98,7 +102,6 @@ importBtn.addEventListener('click', async () => {
             document.getElementById('gear-display').innerHTML = gearHTML;
         };
 
-        // Création des tags cliquables pour chaque variante
         const tagsHTML = Object.keys(buildData.variantes).map(v => 
             `<span class="tag" style="cursor:pointer;" onclick="afficherVariante('${v}')">${v}</span>`
         ).join('');

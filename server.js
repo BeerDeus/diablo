@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 
 const app = express();
 app.use(cors());
@@ -21,43 +22,65 @@ function traduire(texteEN) {
     return dicoFR[texteEN] || texteEN; // Retourne en FR si trouvé, sinon garde l'EN
 }
 
-// Nouvelle structure de l'API pour englober toutes les variantes et les slots d'équipement
 app.post('/api/scrape', async (req, res) => {
     const { url } = req.body;
 
     try {
-        const response = await axios.get(url);
-        const $ = cheerio.load(response.data);
+        const browser = await puppeteer.launch({ headless: "new" });
+        const page = await browser.newPage();
+        
+        await page.goto(url, { waitUntil: 'networkidle2' });
 
-        // Simulation de l'extraction des données basées sur l'interface de Mobalytics
-        const buildData = {
-            nom: "Barbare Trombe", 
-            variantes: {
-                "Legendary": {
-                    "Helm": { nomEN: "Wildbolt Aspect", nomFR: traduire("Wildbolt Aspect") },
-                    "Chest armor": { nomEN: "Juggernaut's Aspect", nomFR: traduire("Juggernaut's Aspect") },
-                    "Gloves": { nomEN: "Steadfast Berserker's Aspect", nomFR: traduire("Steadfast Berserker's Aspect") },
-                    "Pants": { nomEN: "Aspect of Coagulation", nomFR: traduire("Aspect of Coagulation") },
-                    "Boots": { nomEN: "Battle Fervor's Aspect", nomFR: traduire("Battle Fervor's Aspect") },
-                    "Amulet": { nomEN: "Crushing Aspect", nomFR: traduire("Crushing Aspect") },
-                    "Ring 1": { nomEN: "Bold Chieftain's Aspect", nomFR: traduire("Bold Chieftain's Aspect") },
-                    "Ring 2": { nomEN: "Heavy Hitting Aspect", nomFR: traduire("Heavy Hitting Aspect") },
-                    "Bludgeoning weapon": { nomEN: "Aspect of Limitless Rage", nomFR: traduire("Aspect of Limitless Rage") },
-                    "Slashing weapon": { nomEN: "Aspect of Channeling", nomFR: traduire("Aspect of Channeling") },
-                    "Dual wield weapon 1": { nomEN: "Edgemaster's Aspect", nomFR: traduire("Edgemaster's Aspect") },
-                    "Dual wield weapon 2": { nomEN: "Vehement Brawler's Aspect", nomFR: traduire("Vehement Brawler's Aspect") }
-                },
-                "Uniques": {
-                    "Helm": { nomEN: "Harlequin Crest", nomFR: "Cimier Arlequin" },
-                    "Gloves": { nomEN: "Gohr's Devastating Grips", nomFR: traduire("Gohr's Devastating Grips") }
+        const buildData = await page.evaluate(() => {
+            const donnees = {
+                nom: document.querySelector('h1')?.innerText || "Build Inconnu",
+                variantes: { "Actuelle": {} } 
+            };
+
+            // On récupère tous les span qui possèdent un attribut "title"
+            const spans = document.querySelectorAll('span[title]');
+            
+            spans.forEach(span => {
+                // On remonte au parent direct (la div qui englobe le slot et l'aspect)
+                const parent = span.parentElement;
+                
+                // On vérifie si ce parent contient bien nos deux spans cibles
+                const childSpans = parent.querySelectorAll('span[title]');
+                
+                if (childSpans.length >= 2) {
+                    const slotName = childSpans[0].innerText.trim();
+                    const itemNameEN = childSpans[1].innerText.trim();
+                    
+                    // On enregistre dans la variante "Actuelle"
+                    donnees.variantes["Actuelle"][slotName] = {
+                        nomEN: itemNameEN,
+                        nomFR: itemNameEN 
+                    };
                 }
+            });
+
+            // Note pour les onglets de variantes :
+            // Ce script récupère l'équipement affiché par défaut au chargement de la page.
+            // Pour cliquer sur "Uniques" ou "Mythic", il faudra inspecter ces boutons 
+            // spécifiquement pour trouver leurs classes et simuler un click() avant de refaire la boucle.
+
+            return donnees;
+        });
+
+        await browser.close();
+
+        for (const variante in buildData.variantes) {
+            for (const slot in buildData.variantes[variante]) {
+                const itemEN = buildData.variantes[variante][slot].nomEN;
+                buildData.variantes[variante][slot].nomFR = traduire(itemEN);
             }
-        };
+        }
 
         res.json(buildData);
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erreur lors de la lecture du site" });
+        console.error("Erreur de Scraping Puppeteer :", error);
+        res.status(500).json({ error: "Erreur lors de la lecture dynamique du site" });
     }
 });
 
