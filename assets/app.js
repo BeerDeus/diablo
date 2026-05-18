@@ -21,10 +21,10 @@ const db = getFirestore(app);
 // Dictionnaire global pour stocker les aspects
 let aspectsDict = {};
 
-// Chargement de la base au démarrage
+// Récupère le dictionnaire d'aspects depuis le serveur via un chemin relatif
 async function chargerDictionnaire() {
     try {
-        const res = await fetch('http://localhost:3000/api/aspects');
+        const res = await fetch('/api/aspects');
         aspectsDict = await res.json();
     } catch (error) {
         console.error("Impossible de charger les traductions :", error);
@@ -252,6 +252,7 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
     document.getElementById('gear-display').innerHTML = gearHTML;
 };
 
+// Gestion de l'importation d'un build en appelant le scraper de manière relative
 importBtn.addEventListener('click', async () => {
     const url = document.getElementById('buildUrl').value;
     
@@ -268,7 +269,8 @@ importBtn.addEventListener('click', async () => {
     resultDiv.innerHTML = "<p style='text-align:center;'>Magie en cours... Scraping du build...</p>";
 
     try {
-        const response = await fetch('http://localhost:3000/api/scrape', {
+        // Remplacement de l'adresse absolue par le endpoint relatif pour Hostinger
+        const response = await fetch('/api/scrape', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ url })
@@ -281,10 +283,8 @@ importBtn.addEventListener('click', async () => {
 
         window.activeBuildData = buildData;
 
-        // Ordre de tri de référence calqué sur le site Mobalytics
         const ordreVariantes = ["Legendary", "Uniques", "Mythic", "Selig Overpower", "Pit/Tower ONLY"];
         
-        // Tri forcé des clés dès l'importation pour un affichage propre immédiat
         const variantesTriees = Object.keys(buildData.variantes).sort((a, b) => {
             const idxA = ordreVariantes.indexOf(a);
             const idxB = ordreVariantes.indexOf(b);
