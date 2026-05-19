@@ -722,10 +722,14 @@ function afficherEditeurVariante() {
         gearSlotEditor.parentNode.insertBefore(aspectContainer, gearSlotEditor);
     }
     
-    let htmlAspects = '';
-    htmlAspects += `<div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 25px; border: 1px solid #333;">
-                <h3 style="color: #ffcc00; margin-top: 0; font-size: 1.05em;">Aspects requis pour cette variante :</h3>`;
-    
+    let htmlAspects = `
+    <div style="margin-bottom: 15px; background: #333; padding: 10px; border-radius: 4px;">
+        <label style="margin-right: 10px;">Index de tri :</label>
+        <input type="number" value="${varianteActuelle.index || 99}" 
+               onchange="window.mettreAJourIndex('${activeVariant}', this.value)" 
+               style="width: 60px; padding: 5px; background: #222; border: 1px solid #555; color: white;">
+        <span style="font-size: 0.8em; color: #aaa; margin-left: 10px;">(Plus le chiffre est bas, plus la variante est à gauche)</span>
+    </div>`;
     if (varianteActuelle.aspectsPool.length === 0) {
         htmlAspects += `<p style="color: #777; font-style: italic; font-size: 0.85em;">Aucun aspect ajouté. Utilisez la barre de recherche ci-dessus.</p>`;
     } else {
@@ -888,6 +892,18 @@ function afficherEditeurVariante() {
     
     document.getElementById('gearSlotEditor').innerHTML = htmlGear;
 }
+
+
+// Met à jour l'index d'une variante et rafraîchit l'affichage
+window.mettreAJourIndex = (nomVariante, nouvelIndex) => {
+    if (!currentManualBuild.variantes[nomVariante]) return;
+    
+    // On convertit en nombre
+    currentManualBuild.variantes[nomVariante].index = parseInt(nouvelIndex) || 99;
+    
+    // On rafraîchit les tags pour que l'ordre change immédiatement à l'écran
+    actualiserTagsVariantes();
+};
 
 // Met à jour la valeur d'un emplacement spécifique de gemme
 window.majGemme = (slot, index, valeur) => {
