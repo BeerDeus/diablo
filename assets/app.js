@@ -316,6 +316,11 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
             const infoAspect = aspectsDict[item.key];
             if (infoAspect) {
                 const suiviGlobal = window.userAspects[item.key] || { obtenu: false };
+                
+                // NOUVEAU : On sécurise les clés et noms pour éviter que les apostrophes ne cassent le code HTML
+                const safeKey = item.key.replace(/'/g, "\\'");
+                const safeVarianteNom = varianteNom.replace(/'/g, "\\'");
+                
                 poolHTML += `
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; background: #222; padding: 8px; border-radius: 4px; border-left: 3px solid ${suiviGlobal.obtenu ? '#4CAF50' : '#8b0000'}; font-size: 0.8em;">
                         <div style="flex: 1; margin-right: 10px;">
@@ -324,7 +329,7 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
                         </div>
                         <label style="color: #4CAF50; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 3px; white-space: nowrap;">
                             <input type="checkbox" ${suiviGlobal.obtenu ? 'checked' : ''} 
-                                onchange="window.majAspectUtilisateur('${item.key}', 'obtenu', this.checked); window.afficherVarianteGénérique(window.activeBuildData, '${varianteNom}');"> OK
+                                onchange="window.majAspectUtilisateur('${safeKey}', 'obtenu', this.checked); window.afficherVarianteGénérique(window.activeBuildData, '${safeVarianteNom}');"> OK
                         </label>
                     </div>`;
             }
