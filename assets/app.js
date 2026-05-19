@@ -59,6 +59,68 @@ async function chargerDonneesTempers() {
 }
 chargerDonneesTempers();
 
+// --- AJOUT : Dictionnaire pour les Uniques et Mythiques ---
+let uniquesDict = { Uniques: {}, Mythiques: {} };
+
+async function chargerDonneesUniques() {
+    try {
+        const response = await fetch('unique.json');
+        uniquesDict = await response.json();
+    } catch (erreur) {
+        console.error("Impossible de charger unique.json :", erreur);
+    }
+}
+chargerDonneesUniques();
+
+// Injection dynamique du bouton Dupliquer
+setTimeout(() => {
+    const addVarBtn = document.getElementById('addVariantBtn');
+    if (addVarBtn && !document.getElementById('duplicateVariantBtn')) {
+        const dupBtn = document.createElement('button');
+        dupBtn.id = 'duplicateVariantBtn';
+        dupBtn.textContent = 'Dupliquer Variante';
+        dupBtn.style = 'margin-left: 10px; background-color: #d84315;';
+        
+        dupBtn.addEventListener('click', () => {
+            const nomVar = document.getElementById('newVariantName').value;
+            if (!nomVar || !currentManualBuild || !activeVariant) return alert("Veuillez entrer un nom et sélectionner une variante à copier.");
+            
+            // Copie profonde de la variante active pour la dupliquer
+            currentManualBuild.variantes[nomVar] = JSON.parse(JSON.stringify(currentManualBuild.variantes[activeVariant]));
+            
+            document.getElementById('newVariantName').value = '';
+            window.selectionnerVariante(nomVar);
+        });
+        addVarBtn.parentNode.appendChild(dupBtn);
+    }
+}, 1000);
+
+// Gère les cases à cocher Unique / Mythique
+window.majTypeEquipement = (slot, type, isChecked) => {
+    if (!activeVariant) return;
+    const cible = currentManualBuild.variantes[activeVariant].equipement[slot];
+    
+    if (type === 'isUnique') {
+        cible.isUnique = isChecked;
+        if (isChecked) cible.isMythic = false; // Mutuellement exclusif
+    } else if (type === 'isMythic') {
+        cible.isMythic = isChecked;
+        if (isChecked) cible.isUnique = false;
+    }
+    cible.uniqueName = ""; // Réinitialise l'objet choisi
+    cible.aspectEN = ""; // Supprime l'aspect assigné
+    cible.trempe = ""; // Supprime la trempe (les uniques/mythiques n'ont pas de trempe)
+    
+    afficherEditeurVariante();
+};
+
+// Enregistre l'objet Unique ou Mythique choisi dans le menu
+window.majItemUnique = (slot, itemName) => {
+    if (!activeVariant) return;
+    currentManualBuild.variantes[activeVariant].equipement[slot].uniqueName = itemName;
+    afficherEditeurVariante(); // Rafraîchit l'interface pour figer les statistiques (si mythique)
+};
+
 // Initialisation de l'authentification Firebase
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
@@ -215,6 +277,9 @@ window.editerBuild = (buildId) => {
                 
                 equipementReconstruit[slotFR] = {
                     aspectEN: (data.nomEN === "Vide (Aucun aspect assigné)" || !data.nomEN) ? "" : data.nomEN,
+                    isUnique: data.isUnique || false,
+                    isMythic: data.isMythic || false,
+                    uniqueName: data.uniqueName || "",
                     stats: statsPadded,
                     trempe: data.trempe || "",
                     gemmes: data.gemmes || equipementReconstruit[slotFR].gemmes
@@ -354,37 +419,68 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
             };
         }
         const trackSlot = trackingVariante.equipement[slotEN];
+if (trackSlot.objetPossede === undefined) trackSlot.objetPossede = false;
 
-        // Remplissage du menu déroulant local avec uniquement les aspects possédés ou déjà assignés
-        let optionsAspects = `<option value="">-- Assigner un aspect de la réserve --</option>`;
-        pool.forEach(p => {
-            const suiviGlobal = window.userAspects[p.key] || { obtenu: false };
-            
-            // Filtre : On n'affiche l'aspect que si tu l'as "OK" (obtenu) OU s'il est déjà assigné sur cette pièce
-            if (suiviGlobal.obtenu || trackSlot.aspectAssigné === p.key) {
-                const info = aspectsDict[p.key];
-                if (info) {
-                    optionsAspects += `<option value="${p.key}" ${trackSlot.aspectAssigné === p.key ? 'selected' : ''}>${info.nomFR}</option>`;
-                }
-            }
-        });
-
-        // Affichage de la description dynamique si un aspect est sélectionné sur cette pièce de stuff
-        const infoAspectAssigné = aspectsDict[trackSlot.aspectAssigné];
+        let menuObjetHtml = '';
         let blocAspectHTML = '';
-        if (infoAspectAssigné) {
-            let descFormattee = infoAspectAssigné.description
-                .replace(/\[([^\]]+)\]%\[x\]/g, '<span style="color: #ff8800; font-weight: bold; white-space: nowrap;">[$1]%[x]</span>')
-                .replace(/\[([^\]]+)\]%\[\+\]/g, '<span style="color: #4da6ff; font-weight: bold; white-space: nowrap;">[$1]%[+]</span>')
-                .replace(/\[([^\]]+)\]/g, '<span style="color: #ffcc00; font-weight: bold; white-space: nowrap;">[$1]</span>');
+        
+        // Logique d'affichage si l'objet est Unique ou Mythique
+        if (item.isUnique || item.isMythic) {
+            const dico = item.isMythic ? uniquesDict.Mythiques : uniquesDict.Uniques;
+            const infoObj = dico[item.uniqueName];
+            const typeNom = item.isMythic ? 'Mythique' : 'Unique';
+            const colorObj = item.isMythic ? '#ba68c8' : '#cddc39';
+            const cochePossede = trackSlot.objetPossede || false;
+            
+            if (infoObj) {
+                menuObjetHtml = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #222; padding: 8px; border: 1px solid ${colorObj}; border-radius: 4px;">
+                        <strong style="color: ${colorObj};">${infoObj.nomFR} <span style="font-size: 0.8em; color: #aaa;">(${typeNom})</span></strong>
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; font-weight: bold; color: ${cochePossede ? '#4CAF50' : '#ccc'};">
+                            <input type="checkbox" ${cochePossede ? 'checked' : ''} onchange="window.majTrackingProgression('${slotEN}', 'objetPossede', null, this.checked)"> Possédé
+                        </label>
+                    </div>`;
+                    
+                blocAspectHTML = `
+                    <div style="margin-top: 10px; background: #151515; padding: 8px; border-radius: 4px; border: 1px solid #252525;">
+                        <p style="margin: 0; font-size: 0.85em; color: #eee; line-height: 1.4;">${infoObj.effet}</p>
+                    </div>`;
+            } else {
+                menuObjetHtml = `<div style="color: #ffcc00; font-style: italic;">Objet ${typeNom} non défini dans le build</div>`;
+            }
+        } else {
+            // Remplissage classique du menu local avec les aspects
+            let optionsAspects = `<option value="">-- Assigner un aspect de la réserve --</option>`;
+            pool.forEach(p => {
+                const suiviGlobal = window.userAspects[p.key] || { obtenu: false };
+                if (suiviGlobal.obtenu || trackSlot.aspectAssigné === p.key) {
+                    const info = aspectsDict[p.key];
+                    if (info) {
+                        optionsAspects += `<option value="${p.key}" ${trackSlot.aspectAssigné === p.key ? 'selected' : ''}>${info.nomFR}</option>`;
+                    }
+                }
+            });
 
-            blocAspectHTML = `
-                <div style="margin-top: 10px; background: #151515; padding: 8px; border-radius: 4px; border: 1px solid #252525;">
-                    <p style="margin: 0; font-size: 0.85em; color: #eee; line-height: 1.4;">${descFormattee}</p>
-                </div>`;
+            menuObjetHtml = `
+                <select onchange="window.majTrackingAspect('${slotEN}', this.value)" style="width: 100%; padding: 6px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px; font-size: 0.85em;">
+                    ${optionsAspects}
+                </select>`;
+
+            const infoAspectAssigné = aspectsDict[trackSlot.aspectAssigné];
+            if (infoAspectAssigné) {
+                let descFormattee = infoAspectAssigné.description
+                    .replace(/\[([^\]]+)\]%\[x\]/g, '<span style="color: #ff8800; font-weight: bold; white-space: nowrap;">[$1]%[x]</span>')
+                    .replace(/\[([^\]]+)\]%\[\+\]/g, '<span style="color: #4da6ff; font-weight: bold; white-space: nowrap;">[$1]%[+]</span>')
+                    .replace(/\[([^\]]+)\]/g, '<span style="color: #ffcc00; font-weight: bold; white-space: nowrap;">[$1]</span>');
+
+                blocAspectHTML = `
+                    <div style="margin-top: 10px; background: #151515; padding: 8px; border-radius: 4px; border: 1px solid #252525;">
+                        <p style="margin: 0; font-size: 0.85em; color: #eee; line-height: 1.4;">${descFormattee}</p>
+                    </div>`;
+            }
         }
 
-        // Section Statistiques cibles fixes + Checkbox d'obtention
+        // Section Statistiques
         let statsHTML = '';
         if (item.stats && item.stats.length > 0) {
             statsHTML += `<div style="margin-top: 12px; border-top: 1px dashed #333; padding-top: 8px;">
@@ -404,9 +500,9 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
             statsHTML += `</ul></div>`;
         }
 
-        // Section Trempe fixe + Checkbox
+        // Section Trempe (Pas de trempe pour les Uniques/Mythiques)
         let trempeHTML = '';
-        if (item.trempe) {
+        if (item.trempe && !(item.isUnique || item.isMythic)) {
             const cocheTrempe = trackSlot.trempeObtenue || false;
             trempeHTML += `
                 <div style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85em; color: ${cocheTrempe ? '#4CAF50' : '#ccc'};">
@@ -417,7 +513,7 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
                 </div>`;
         }
 
-        // Section Gemmes fixes + Checkbox
+        // Section Gemmes
         let gemmesHTML = '';
         if (item.gemmes && item.gemmes.length > 0) {
             gemmesHTML += `<div style="margin-top: 10px; display: flex; flex-direction: column; gap: 4px; font-size: 0.85em;">`;
@@ -436,12 +532,16 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
             gemmesHTML += `</div>`;
         }
 
-        // Indicateur d'achèvement (Calcul du pourcentage global de l'objet)
-        let totalElements = (item.stats ? item.stats.length : 0) + (item.trempe ? 1 : 0) + (item.gemmes ? item.gemmes.filter(g => g.trim() !== "").length : 0);
+        // Indicateur d'achèvement (Adapté pour les Uniques/Mythiques)
+        let totalElements = (item.stats ? item.stats.length : 0) + (item.gemmes ? item.gemmes.filter(g => g.trim() !== "").length : 0);
+        if (!(item.isUnique || item.isMythic) && item.trempe) totalElements++;
+        if (item.isUnique || item.isMythic) totalElements++; // La case "Possédé" compte pour 1 élément
+
         let elementsObtenus = 0;
         if (item.stats) trackSlot.statsObtenues.forEach(b => { if(b) elementsObtenus++; });
-        if (item.trempe && trackSlot.trempeObtenue) elementsObtenus++;
         if (item.gemmes) trackSlot.gemmesObtenues.forEach(b => { if(b) elementsObtenus++; });
+        if (!(item.isUnique || item.isMythic) && item.trempe && trackSlot.trempeObtenue) elementsObtenus++;
+        if ((item.isUnique || item.isMythic) && trackSlot.objetPossede) elementsObtenus++;
         
         let pcent = totalElements > 0 ? Math.round((elementsObtenus / totalElements) * 100) : 100;
         let borderSlotColor = pcent === 100 ? '#4CAF50' : (pcent > 0 ? '#ffcc00' : '#444');
@@ -454,9 +554,7 @@ window.afficherVarianteGénérique = (buildData, varianteNom) => {
                         <span style="font-size: 0.8em; font-weight: bold; color: ${borderSlotColor};">${pcent}%</span>
                     </div>
                     <div style="margin-bottom: 8px;">
-                        <select onchange="window.majTrackingAspect('${slotEN}', this.value)" style="width: 100%; padding: 6px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px; font-size: 0.85em;">
-                            ${optionsAspects}
-                        </select>
+                        ${menuObjetHtml}
                     </div>
                     ${blocAspectHTML}
                     ${statsHTML}
@@ -678,16 +776,45 @@ function afficherEditeurVariante() {
         temperDatalistHtml += `</datalist>`;
         // -------------------------------------------------------------------------
 
-        let optionsAspects = `<option value="">-- Assigner un aspect de la réserve --</option>`;
+        // NOUVEAU : Logique de rendu pour Unique / Mythique
+        data.isUnique = data.isUnique || false;
+        data.isMythic = data.isMythic || false;
+        data.uniqueName = data.uniqueName || "";
         
-        varianteActuelle.aspectsPool.forEach(item => {
-            if (item.possede) {
-                const info = aspectsDict[item.key];
-                if (info) {
-                    optionsAspects += `<option value="${item.key}" ${data.aspectEN === item.key ? 'selected' : ''}>${info.nomFR}</option>`;
+        let typeSelectionne = data.isMythic ? 'Mythiques' : (data.isUnique ? 'Uniques' : null);
+        let menuObjetHtml = '';
+        
+        if (typeSelectionne) {
+            let optionsObjets = `<option value="">-- Assigner un objet ${typeSelectionne.slice(0,-1)} --</option>`;
+            if (uniquesDict[typeSelectionne]) {
+                Object.entries(uniquesDict[typeSelectionne]).forEach(([nomEN, infoItem]) => {
+                    optionsObjets += `<option value="${nomEN}" ${data.uniqueName === nomEN ? 'selected' : ''}>${infoItem.nomFR}</option>`;
+                });
+            }
+            // Affiche la liste des uniques/mythiques (en violet ou vert clair pour les différencier visuellement)
+            const borderColor = data.isMythic ? '#ba68c8' : '#cddc39';
+            menuObjetHtml = `<select onchange="window.majItemUnique('${slot}', this.value)" style="width: 100%; padding: 8px; background: #222; color: #fff; border: 1px solid ${borderColor}; border-radius: 4px;">${optionsObjets}</select>`;
+            
+            // Si Mythique sélectionné, on force les 4 statistiques du JSON
+            if (data.isMythic && data.uniqueName && uniquesDict.Mythiques[data.uniqueName]) {
+                const statsMythiques = uniquesDict.Mythiques[data.uniqueName].stats || [];
+                for(let i=0; i<4; i++) {
+                    data.stats[i] = statsMythiques[i] || "";
                 }
             }
-        });
+        } else {
+            // Affichage normal des Aspects de la réserve
+            let optionsAspects = `<option value="">-- Assigner un aspect de la réserve --</option>`;
+            varianteActuelle.aspectsPool.forEach(item => {
+                if (item.possede) {
+                    const info = aspectsDict[item.key];
+                    if (info) {
+                        optionsAspects += `<option value="${item.key}" ${data.aspectEN === item.key ? 'selected' : ''}>${info.nomFR}</option>`;
+                    }
+                }
+            });
+            menuObjetHtml = `<select onchange="window.majAspectSlot('${slot}', this.value)" style="width: 100%; padding: 8px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px;">${optionsAspects}</select>`;
+        }
 
         let gemmesHtml = '';
         if (data.gemmes && data.gemmes.length > 0) {
@@ -698,21 +825,33 @@ function afficherEditeurVariante() {
             gemmesHtml += `</div>`;
         }
 
+        const isStatsLocked = (data.isMythic && data.uniqueName) ? 'readonly style="background: #333; color: #aaa;"' : '';
+
         htmlGear += `
             ${datalistsHtml}
             ${temperDatalistHtml}
             <div class="gear-item" style="border-left: 4px solid #444; margin-bottom: 15px; background: #111; padding: 15px; border-radius: 6px;">
-                <div style="margin-bottom: 10px;"><strong style="color: #ffcc00; font-size: 1.05em;">${slot}</strong></div>
+                <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="color: #ffcc00; font-size: 1.05em;">${slot}</strong>
+                    <div>
+                        <label style="margin-right: 10px; font-size: 0.85em; cursor: pointer; color: ${data.isUnique ? '#cddc39' : '#fff'};">
+                            <input type="checkbox" ${data.isUnique ? 'checked' : ''} onchange="window.majTypeEquipement('${slot}', 'isUnique', this.checked)"> Unique
+                        </label>
+                        <label style="font-size: 0.85em; cursor: pointer; color: ${data.isMythic ? '#ba68c8' : '#fff'};">
+                            <input type="checkbox" ${data.isMythic ? 'checked' : ''} onchange="window.majTypeEquipement('${slot}', 'isMythic', this.checked)"> Mythique
+                        </label>
+                    </div>
+                </div>
                 <div style="margin-bottom: 12px;">
-                    <select onchange="window.majAspectSlot('${slot}', this.value)" style="width: 100%; padding: 8px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px;">${optionsAspects}</select>
+                    ${menuObjetHtml}
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div style="grid-column: span 2;"><span style="color: #aaa; font-size: 0.8em;">Statistiques cibles :</span></div>
-                    ${data.stats.map((s, i) => `<input type="text" list="stats-list-${slotId}-${i}" placeholder="Statistique ${i+1}" value="${s}" onchange="window.majChamp('${slot}', 'stats', ${i}, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;">`).join('')}
+                    ${data.stats.map((s, i) => `<input type="text" list="stats-list-${slotId}-${i}" placeholder="Statistique ${i+1}" value="${s}" onchange="window.majChamp('${slot}', 'stats', ${i}, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;" ${isStatsLocked}>`).join('')}
                 </div>
                 <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div style="grid-column: span 2;"><span style="color: #aaa; font-size: 0.8em;">Trempe & Gemmes :</span></div>
-                    <input type="text" list="temper-list-${slotId}" placeholder="Trempe unique (Recherche automatique)" value="${data.trempe || ''}" onchange="window.majChamp('${slot}', 'trempe', null, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #500; color: white; border-radius: 4px; grid-column: span 2;">
+                    ${!typeSelectionne ? `<input type="text" list="temper-list-${slotId}" placeholder="Trempe unique (Recherche automatique)" value="${data.trempe || ''}" onchange="window.majChamp('${slot}', 'trempe', null, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #500; color: white; border-radius: 4px; grid-column: span 2;">` : ''}
                     ${gemmesHtml}
                 </div>
             </div>`;
@@ -863,6 +1002,9 @@ document.getElementById('saveBuildBtn').addEventListener('click', async () => {
             
             buildAExporter.variantes[nomVar][slotEN] = { 
                 nomEN: data.aspectEN || "", 
+                isUnique: data.isUnique || false,
+                isMythic: data.isMythic || false,
+                uniqueName: data.uniqueName || "",
                 stats: data.stats.filter(s => s.trim() !== ""), 
                 trempe: data.trempe || "",
                 gemmes: data.gemmes || []

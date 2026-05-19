@@ -1,0 +1,24 @@
+{
+  "Uniques": {
+    "Gohr's Devastating Grips": {
+      "nomFR": "Poignes dévastatrices de Gohr",
+      "effet": "Tourbillon inflige [75 - 90]% de dégâts supplémentaires et attire les adversaires vers vous toutes les 2 s."
+    },
+    "Ramaladni's Magnum Opus": {
+      "nomFR": "Chef-d’œuvre de Ramaladni",
+      "effet": "Les compétences infligent [0.35 - 0.50]%[x] de dégâts supplémentaires par point de fureur dont vous disposez, mais 10 points de fureur sont drainés par seconde."
+    }
+  },
+  "Mythiques": {
+    "Melted Heart of Selig": {
+      "nomFR": "Cœur fondu de Selig",
+      "effet": "Les dégâts sont infligés en premier lieu à votre ressource principale au lieu de vos points de vie et les dégâts subis sont considérablement réduits. Votre ressource principale est doublée, mais votre maximum de points de vie est réduit de 75%.",
+      "stats": [
+        "157 Toutes les résistances",
+        "+12.0% à toutes les caractéristiques",
+        "+15.0% de chances d’obtenir un Coup de chance",
+        "+25% à la vitesse de déplacement"
+      ]
+    }
+  }
+}
