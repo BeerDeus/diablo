@@ -63,6 +63,7 @@
     "Poison Resistance": { "nomFR": "+[367 - 415] Résistance au poison"  },
     "Shadow Resistance": { "nomFR": "+[367 - 415] Résistance à l'ombre"  },
     "Resource Cost Reduction": { "nomFR": "[2.0 - 4.0]% Réduction du coût en ressource"  },
+    "Cooldown Reduction": { "nomFR": "[5.0 - 8.0]% Réduction du temps de recharge"  },
     "to Core Skills": { "nomFR": "+[1 - 2] aux compétences Principales"  },
     "to Double Swing": { "nomFR": "+[2 - 3] à Coup double"  },
     "to Hammer of the Ancients": { "nomFR": "+[2 - 3] à Marteau des Anciens"  },
@@ -74,6 +75,7 @@
     "Strength": { "nomFR": "+[47 - 56] Force"  },
     "Maximum Life": { "nomFR": "+[351 - 540] Maximum de points de vie"  },
     "Life Regeneration": { "nomFR": "+[37 - 56] Régénération de vie"  },
+    "Fury Regeneration": { "nomFR": "+[2 - 3] Régénération de fureur"  },
     "Thorns": { "nomFR": "+[153 - 382] Épines"  },
     "Healing Received": { "nomFR": "+[4.0 - 7.0]% Soins reçus"  },
     "Armor": { "nomFR": "+[689 - 779] Armure"  },
@@ -155,7 +157,8 @@
     "Lightning Resistance": { "nomFR": "+[367 - 415] Résistance à la foudre"  },
     "Poison Resistance": { "nomFR": "+[367 - 415] Résistance au poison"  },
     "Shadow Resistance": { "nomFR": "+[367 - 415] Résistance à l'ombre"  },
-    "Resource Cost Reduction": { "nomFR": "[2.0 - 4.0]% Réduction du coût en ressource"  }
+    "Resource Cost Reduction": { "nomFR": "[2.0 - 4.0]% Réduction du coût en ressource"  },
+    "Cooldown Reduction": { "nomFR": "[5.0 - 8.0]% Réduction du temps de recharge"  }
   },
   "Anneau 2": {
     "Strength": { "nomFR": "+[47 - 56] Force"  },
@@ -178,7 +181,8 @@
     "Lightning Resistance": { "nomFR": "+[367 - 415] Résistance à la foudre"  },
     "Poison Resistance": { "nomFR": "+[367 - 415] Résistance au poison"  },
     "Shadow Resistance": { "nomFR": "+[367 - 415] Résistance à l'ombre"  },
-    "Resource Cost Reduction": { "nomFR": "[2.0 - 4.0]% Réduction du coût en ressource"  }
+    "Resource Cost Reduction": { "nomFR": "[2.0 - 4.0]% Réduction du coût en ressource"  },
+    "Cooldown Reduction": { "nomFR": "[5.0 - 8.0]% Réduction du temps de recharge"  }
   },
   "Arme contondante": {
     "Strength": { "nomFR": "+[94 - 112] Force"  },
@@ -191,7 +195,8 @@
     "Damage Over Time Multiplier": { "nomFR": "x[24 - 30]% Multiplicateur de dégâts sur la durée"  },
     "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[600.0 - 800.0]% de ressource principale"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[126 - 272] de vie"  },
-    "Resource Cost Reduction": { "nomFR": "[4.0 - 8.0]% Réduction du coût en ressource"  }
+    "Resource Cost Reduction": { "nomFR": "[4.0 - 8.0]% Réduction du coût en ressource"  },
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
   },
   "Arme tranchante": {
     "Strength": { "nomFR": "+[94 - 112] Force"  },
@@ -204,7 +209,8 @@
     "Damage Over Time Multiplier": { "nomFR": "x[24 - 30]% Multiplicateur de dégâts sur la durée"  },
     "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[600.0 - 800.0]% de ressource principale"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[126 - 272] de vie"  },
-    "Resource Cost Reduction": { "nomFR": "[4.0 - 8.0]% Réduction du coût en ressource"  }
+    "Resource Cost Reduction": { "nomFR": "[4.0 - 8.0]% Réduction du coût en ressource"  },
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
   },
   "Arme à une main 1": {
     "Strength": { "nomFR": "+[47 - 56] Force"  },
@@ -215,7 +221,8 @@
     "Vulnerable Damage Multiplier": { "nomFR": "x[7 - 11]% Multiplicateur de dégâts des victimes vulnérables"  },
     "Damage Over Time Multiplier": { "nomFR": "x[12 - 15]% Multiplicateur de dégâts sur la durée"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[63 - 136] de vie"  },
-    "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[300.0 - 400.0]% de ressource principale"  }
+    "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[300.0 - 400.0]% de ressource principale"  },
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
   },
   "Arme à une main 2": {
     "Strength": { "nomFR": "+[47 - 56] Force"  },
@@ -226,6 +233,7 @@
     "Vulnerable Damage Multiplier": { "nomFR": "x[7 - 11]% Multiplicateur de dégâts des victimes vulnérables"  },
     "Damage Over Time Multiplier": { "nomFR": "x[12 - 15]% Multiplicateur de dégâts sur la durée"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[63 - 136] de vie"  },
-    "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[300.0 - 400.0]% de ressource principale"  }
+    "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[300.0 - 400.0]% de ressource principale"  },
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
   }
 }
