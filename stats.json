@@ -40,7 +40,8 @@
     "to Challenging Shout": { "nomFR": "+[2 - 3] à Cri de défi"  },
     "to Ground Stomp": { "nomFR": "+[2 - 3] à Choc terrestre"  },
     "to Iron Skin": { "nomFR": "+[2 - 3] à Peau de fer"  },
-    "to Rallying Cry": { "nomFR": "+[2 - 3] à Cri de ralliement"  }
+    "to Rallying Cry": { "nomFR": "+[2 - 3] à Cri de ralliement"  },
+    "Maximum Resource": { "nomFR": "+[5 - 10] Ressource maximale"  }
   },
   "Gants": {
     "Strength": { "nomFR": "+[47 - 56] Force"  },
