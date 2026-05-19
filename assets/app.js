@@ -73,9 +73,19 @@ async function chargerDonneesUniques() {
 chargerDonneesUniques();
 
 // Injection dynamique du bouton Dupliquer
+// Injection dynamique du bouton Dupliquer et du champ Index
 setTimeout(() => {
     const addVarBtn = document.getElementById('addVariantBtn');
     if (addVarBtn && !document.getElementById('duplicateVariantBtn')) {
+        // Ajout du champ Index
+        const indexInput = document.createElement('input');
+        indexInput.type = 'number';
+        indexInput.id = 'newVariantIndex';
+        indexInput.placeholder = 'Index (1, 2...)';
+        indexInput.style = 'width: 130px; padding: 12px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 4px; margin-right: 10px;';
+        addVarBtn.parentNode.insertBefore(indexInput, document.getElementById('newVariantName'));
+
+        // Ajout du bouton Dupliquer
         const dupBtn = document.createElement('button');
         dupBtn.id = 'duplicateVariantBtn';
         dupBtn.textContent = 'Dupliquer Variante';
@@ -83,12 +93,15 @@ setTimeout(() => {
         
         dupBtn.addEventListener('click', () => {
             const nomVar = document.getElementById('newVariantName').value;
+            const indexVal = parseInt(document.getElementById('newVariantIndex').value) || 99;
             if (!nomVar || !currentManualBuild || !activeVariant) return alert("Veuillez entrer un nom et sélectionner une variante à copier.");
             
-            // Copie profonde de la variante active pour la dupliquer
+            // Copie profonde et assignation du nouvel index
             currentManualBuild.variantes[nomVar] = JSON.parse(JSON.stringify(currentManualBuild.variantes[activeVariant]));
+            currentManualBuild.variantes[nomVar].index = indexVal;
             
             document.getElementById('newVariantName').value = '';
+            document.getElementById('newVariantIndex').value = '';
             window.selectionnerVariante(nomVar);
         });
         addVarBtn.parentNode.appendChild(dupBtn);
@@ -314,7 +327,6 @@ window.chargerBuildSurPage = async (buildId) => {
     window.activeBuildData = buildData;
     window.currentTrackingData = {};
 
-    // Chargement de l'état de progression indépendant (cases cochées et aspects placés)
     try {
         const docRef = doc(db, "builds_tracking", buildId);
         const docSnap = await getDoc(docRef);
@@ -323,12 +335,11 @@ window.chargerBuildSurPage = async (buildId) => {
         console.error("Erreur au chargement de la progression :", error);
     }
 
-    const ordreVariantes = ["Legendary", "Uniques", "Mythic", "Selig Overpower", "Pit/Tower ONLY"];
-    
+    // Tri par index enregistré dans Firebase
     const variantesTriees = Object.keys(buildData.variantes).sort((a, b) => {
-        const idxA = ordreVariantes.indexOf(a);
-        const idxB = ordreVariantes.indexOf(b);
-        return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+        const indexA = buildData.variantes[a].index !== undefined ? buildData.variantes[a].index : 99;
+        const indexB = buildData.variantes[b].index !== undefined ? buildData.variantes[b].index : 99;
+        return indexA - indexB;
     });
 
     const tagsHTML = variantesTriees.map(v => 
@@ -634,19 +645,21 @@ const ordreEquipementComplet = [
 ];
 
 // Initialisation d'une variante avec son pool d'aspects et ses slots vides
-// Gestion de l'ajout d'une variante avec les règles de gemmes et de trempe configurées
 document.getElementById('addVariantBtn').addEventListener('click', () => {
     const nomVar = document.getElementById('newVariantName').value;
+    const indexInput = document.getElementById('newVariantIndex');
+    const indexVal = indexInput && indexInput.value ? parseInt(indexInput.value) : 99;
+    
     if (!nomVar || !currentManualBuild) return;
     
     if (!currentManualBuild.variantes[nomVar]) {
         currentManualBuild.variantes[nomVar] = {
+            index: indexVal, // Ajout de l'index de tri
             aspectsPool: [],
             equipement: {}
         };
         
         ordreEquipementComplet.forEach(slot => {
-            // Attribution dynamique du nombre d'emplacements de gemmes autorisés
             let nbGemmes = 0;
             if (["Casque", "Plastron", "Jambières", "Arme tranchante", "Arme contondante"].includes(slot)) {
                 nbGemmes = 2;
@@ -657,20 +670,29 @@ document.getElementById('addVariantBtn').addEventListener('click', () => {
             currentManualBuild.variantes[nomVar].equipement[slot] = {
                 aspectEN: "",
                 stats: ["", "", "", ""],
-                trempe: "", // Une seule trempe par équipement
-                gemmes: Array(nbGemmes).fill("") // Tableau dimensionné selon les règles du slot
+                trempe: "",
+                gemmes: Array(nbGemmes).fill("")
             };
         });
     }
     
     document.getElementById('newVariantName').value = '';
+    if(indexInput) indexInput.value = '';
     window.selectionnerVariante(nomVar);
 });
 
-// Mise à jour de l'affichage des onglets de variantes
+// Mise à jour de l'affichage des onglets de variantes avec tri par index
 function actualiserTagsVariantes() {
     const tagsDiv = document.getElementById('variantEditorTags');
-    tagsDiv.innerHTML = Object.keys(currentManualBuild.variantes).map(v => 
+    
+    // Tri des clés en fonction de l'index (ou 99 par défaut pour les mettre à la fin)
+    const keysTriees = Object.keys(currentManualBuild.variantes).sort((a, b) => {
+        const indexA = currentManualBuild.variantes[a].index !== undefined ? currentManualBuild.variantes[a].index : 99;
+        const indexB = currentManualBuild.variantes[b].index !== undefined ? currentManualBuild.variantes[b].index : 99;
+        return indexA - indexB;
+    });
+
+    tagsDiv.innerHTML = keysTriees.map(v => 
         `<span class="tag" style="cursor:pointer; ${v === activeVariant ? 'border: 1px solid white; background-color: var(--d4-red);' : ''}" onclick="window.selectionnerVariante('${v}')">${v}</span>`
     ).join('');
 }
@@ -1019,6 +1041,9 @@ document.getElementById('saveBuildBtn').addEventListener('click', async () => {
     for (const [nomVar, varianteInfo] of Object.entries(currentManualBuild.variantes)) {
         buildAExporter.variantes[nomVar] = {};
         
+        // Sauvegarde de l'index de tri
+        buildAExporter.variantes[nomVar].index = varianteInfo.index !== undefined ? varianteInfo.index : 99;
+        
         // Sauvegarde de la réserve d'aspects globale de la variante
         buildAExporter.variantes[nomVar].aspectsPool = varianteInfo.aspectsPool || [];
 
@@ -1037,7 +1062,6 @@ document.getElementById('saveBuildBtn').addEventListener('click', async () => {
         }
     }
 
-    // NOUVELLE LOGIQUE D'ENREGISTREMENT (Création vs Mise à jour)
     try {
         if (currentBuildId) {
             await setDoc(doc(db, "builds_diablo", currentBuildId), buildAExporter);
