@@ -39,15 +39,9 @@ app.post('/api/scrape', async (req, res) => {
 
         const buildData = await page.evaluate(async () => {
             const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-            
-            const donnees = {
-                nom: document.querySelector('h1')?.innerText || "Build Inconnu",
-                variantes: {}
-            };
-
+            const donnees = { nom: document.querySelector('h1')?.innerText || "Build Inconnu", variantes: {} };
             const variantNoms = ["Legendary", "Uniques", "Mythic", "Selig Overpower", "Pit/Tower ONLY"];
             
-            // Extraction uniquement des textes des onglets disponibles pour éviter les éléments fantômes
             const textesOnglets = Array.from(document.querySelectorAll('button, [role="tab"], span, div'))
                 .filter(el => el.innerText && variantNoms.includes(el.innerText.trim()) && el.children.length === 0)
                 .map(el => el.innerText.trim());
@@ -55,50 +49,65 @@ app.post('/api/scrape', async (req, res) => {
             const nomsOngletsUnique = [...new Set(textesOnglets)];
 
             if (nomsOngletsUnique.length === 0) {
-                donnees.variantes["Actuelle"] = {};
-                document.querySelectorAll('span[title]').forEach(span => {
-                    if (span.offsetWidth === 0 || span.offsetHeight === 0) return;
-                    
-                    const parent = span.parentElement;
-                    const childSpans = parent.querySelectorAll('span[title]');
-                    if (childSpans.length >= 2) {
-                        donnees.variantes["Actuelle"][childSpans[0].innerText.trim()] = { nomEN: childSpans[1].innerText.trim() };
-                    }
-                });
-                return donnees;
+                nomsOngletsUnique.push("Actuelle");
             }
 
-            // On boucle sur les chaînes de texte extraites
+            // Référentiel des emplacements pour borner la recherche textuelle
+            const slotsMotsCles = ["Helm", "Chest armor", "Gloves", "Pants", "Boots", "Amulet", "Ring 1", "Ring 2", "Bludgeoning weapon", "Slashing weapon", "Dual wield weapon 1", "Dual wield weapon 2"];
+
             for (const nomVariante of nomsOngletsUnique) {
                 donnees.variantes[nomVariante] = {};
                 
-                // On re-cherche le bouton vivant et visible dans le DOM actuel à chaque itération
-                const ongletVivant = Array.from(document.querySelectorAll('button, [role="tab"], span, div')).find(el => 
-                    el.innerText && el.innerText.trim() === nomVariante && el.children.length === 0 && el.offsetWidth > 0
-                );
-
-                if (ongletVivant) {
-                    ongletVivant.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    ongletVivant.click();
-                    
-                    // Pause pour laisser React rafraîchir complètement la grille d'équipement
-                    await wait(1200); 
-                    
-                    document.querySelectorAll('span[title]').forEach(span => {
-                        if (span.offsetWidth === 0 || span.offsetHeight === 0) return;
-
-                        const parent = span.parentElement;
-                        const childSpans = Array.from(parent.querySelectorAll('span[title]')).filter(s => s.offsetWidth > 0);
-                        
-                        if (childSpans.length >= 2) {
-                            const slotName = childSpans[0].innerText.trim();
-                            const itemNameEN = childSpans[1].innerText.trim();
-                            donnees.variantes[nomVariante][slotName] = { nomEN: itemNameEN };
-                        }
-                    });
+                if (nomVariante !== "Actuelle") {
+                    const ongletVivant = Array.from(document.querySelectorAll('button, [role="tab"], span, div')).find(el => 
+                        el.innerText && el.innerText.trim() === nomVariante && el.children.length === 0 && el.offsetWidth > 0
+                    );
+                    if (ongletVivant) {
+                        ongletVivant.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        ongletVivant.click();
+                        await wait(1200); 
+                    }
                 }
-            }
+                
+                document.querySelectorAll('span[title]').forEach(span => {
+                    if (span.offsetWidth === 0 || span.offsetHeight === 0) return;
 
+                    const parent = span.parentElement;
+                    const childSpans = Array.from(parent.querySelectorAll('span[title]')).filter(s => s.offsetWidth > 0);
+                    
+                    if (childSpans.length >= 2) {
+                        const slotName = childSpans[0].innerText.trim();
+                        const itemNameEN = childSpans[1].innerText.trim();
+
+                        // Remonter l'arbre DOM pour isoler le bloc parent exclusif à cet item
+                        let card = parent;
+                        while (card && card.parentElement) {
+                            const parentText = card.parentElement.innerText || "";
+                            const contientAutreSlot = slotsMotsCles.some(s => s !== slotName && parentText.includes(s));
+                            if (contientAutreSlot) break;
+                            card = card.parentElement;
+                        }
+
+                        // Collecte uniquement les éléments de texte purs (feuilles) pour éviter les blocs dupliqués
+                        let rawLines = [];
+                        if (card) {
+                            card.querySelectorAll('*').forEach(el => {
+                                if (el.children.length === 0 && el.innerText) {
+                                    const text = el.innerText.trim();
+                                    if (text && text !== slotName && text !== itemNameEN && text.length > 1) {
+                                        rawLines.push(text);
+                                    }
+                                }
+                            });
+                        }
+
+                        donnees.variantes[nomVariante][slotName] = { 
+                            nomEN: itemNameEN,
+                            stats: [...new Set(rawLines)].filter(t => t.length > 2 && t.length < 70) // Filtrage des textes valides
+                        };
+                    }
+                });
+            }
             return donnees;
         });
 

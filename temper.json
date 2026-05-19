@@ -1,0 +1,388 @@
+{
+  "Berserking Innovation": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" },
+      { "en": "Berserking Duration", "fr": "Durée de Rage" }
+    ]
+  },
+  "Bleed Augments": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Brawling Augments": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Core Augments — Barbarian": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Furious Augments": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Vehement Augments": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Wasteland Augments": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Weapon Augments": {
+    "class": "Barbare",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Elemental Surge — Day": {
+    "class": "Toutes",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "Lucky Hit: Chance to Deal Physical Damage", "fr": "Coup de chance : chances d'infliger des dégâts physiques" },
+      { "en": "Lucky Hit: Chance to Deal Fire Damage", "fr": "Coup de chance : chances d'infliger des dégâts de feu" },
+      { "en": "Lucky Hit: Chance to Deal Lightning Damage", "fr": "Coup de chance : chances d'infliger des dégâts de foudre" }
+    ]
+  },
+  "Elemental Surge — Night": {
+    "class": "Toutes",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "Lucky Hit: Chance to Deal Cold Damage", "fr": "Coup de chance : chances d'infliger des dégâts de froid" },
+      { "en": "Lucky Hit: Chance to Deal Poison Damage", "fr": "Coup de chance : chances d'infliger des dégâts de poison" },
+      { "en": "Lucky Hit: Chance to Deal Shadow Damage", "fr": "Coup de chance : chances d'infliger des dégâts d'ombre" }
+    ]
+  },
+  "Worldly Destruction": {
+    "class": "Toutes",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "Attack Speed", "fr": "Vitesse d'attaque" },
+      { "en": "Critical Strike Chance", "fr": "Chances de coup critique" },
+      { "en": "Lucky Hit: Chance to Make Enemies Vulnerable", "fr": "Coup de chance : chances de rendre les cibles vulnérables" },
+      { "en": "Lucky Hit: Chance to Weaken", "fr": "Coup de chance : chances d'affaiblir" }
+    ]
+  },
+  "Worldly Scourge": {
+    "class": "Toutes",
+    "type": "Weapon",
+    "slots": ["Weapons"],
+    "affixes": [
+      { "en": "Lucky Hit: Chance to Daze", "fr": "Coup de chance : chances d'hébéter" },
+      { "en": "Lucky Hit: Chance to Freeze", "fr": "Coup de chance : chances de geler" },
+      { "en": "Lucky Hit: Chance to Immobilize", "fr": "Coup de chance : chances d'immobiliser" },
+      { "en": "Lucky Hit: Chance to Slow", "fr": "Coup de chance : chances de ralentir" },
+      { "en": "Lucky Hit: Chance to Stun", "fr": "Coup de chance : chances d'étourdir" }
+    ]
+  },
+  "Arsenal Finesse (Legacy)": {
+    "class": "Barbare",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Damage", "fr": "Dégâts" }
+    ]
+  },
+  "Berserking Finesse": {
+    "class": "Barbare",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Damage while Berserking", "fr": "Dégâts sous l'effet de Rage" },
+      { "en": "Damage when Swapping Weapons", "fr": "Dégâts en changeant d'arme" },
+      { "en": "Physical Damage Over Time", "fr": "Dégâts physiques sur la durée" }
+    ]
+  },
+  "Demolition Finesse": {
+    "class": "Barbare",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Damage with Two-Handed Bludgeoning Weapons", "fr": "Dégâts avec les armes contondantes à deux mains" },
+      { "en": "Damage with Two-Handed Slashing Weapons", "fr": "Dégâts avec les armes tranchantes à deux mains" },
+      { "en": "Damage with Dual-Wielded Weapons", "fr": "Dégâts avec deux armes" }
+    ]
+  },
+  "Elemental Finesse: Day": {
+    "class": "Toutes",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Fire Damage", "fr": "Dégâts de feu" },
+      { "en": "Physical Damage", "fr": "Dégâts physiques" },
+      { "en": "Lightning Damage", "fr": "Dégâts de foudre" },
+      { "en": "Holy Damage", "fr": "Dégâts sacrés" }
+    ]
+  },
+  "Elemental Finesse: Night": {
+    "class": "Toutes",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Cold Damage", "fr": "Dégâts de froid" },
+      { "en": "Poison Damage", "fr": "Dégâts de poison" },
+      { "en": "Shadow Damage", "fr": "Dégâts d'ombre" }
+    ]
+  },
+  "Slayer's Finesse": {
+    "class": "Barbare",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Weapon Mastery Damage", "fr": "Dégâts de Maîtrise des armes" },
+      { "en": "Brawling Damage", "fr": "Dégâts de Bagarre" },
+      { "en": "Ancient Damage", "fr": "Dégâts des Anciens" },
+      { "en": "Earthquake Damage", "fr": "Dégâts de Tremblement de terre" }
+    ]
+  },
+  "Natural Finesse": {
+    "class": "Toutes",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Damage", "fr": "Dégâts" },
+      { "en": "Damage to Crowd Controlled Enemies", "fr": "Dégâts sur les cibles sous contrôle de foule" },
+      { "en": "Damage to Close Enemies", "fr": "Dégâts sur les cibles proches" },
+      { "en": "Damage to Distant Enemies", "fr": "Dégâts sur les cibles à distance" }
+    ]
+  },
+  "Sharpened Finesse": {
+    "class": "Toutes",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Damage when Spending Resolve", "fr": "Dégâts en dépensant de la Détermination" },
+      { "en": "Damage Per Overpower Stack", "fr": "Dégâts par cumul d'Accablement" }
+    ]
+  },
+  "Worldly Finesse": {
+    "class": "Toutes",
+    "type": "Offensive",
+    "slots": ["Weapons", "Gloves", "Rings", "Amulets"],
+    "affixes": [
+      { "en": "Critical Strike Damage", "fr": "Dégâts des coups critiques" },
+      { "en": "Damage Over Time", "fr": "Dégâts sur la durée" },
+      { "en": "Vulnerable Damage", "fr": "Dégâts vulnérables" }
+    ]
+  },
+  "Barbarian Recovery": {
+    "class": "Barbare",
+    "type": "Defensive",
+    "slots": ["Helms", "Chest Armor", "Pants", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Lunging Strike Healing", "fr": "Soins de Fente" },
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Barbarian Strategy": {
+    "class": "Barbare",
+    "type": "Defensive",
+    "slots": ["Helms", "Chest Armor", "Pants", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Ground Stomp Cooldown Reduction", "fr": "Réduction du temps de recharge de Choc terrestre" },
+      { "en": "Iron Skin Cooldown Reduction", "fr": "Réduction du temps de recharge de Peau de fer" },
+      { "en": "Challenging Shout Cooldown Reduction", "fr": "Réduction du temps de recharge de Cri de défi" }
+    ]
+  },
+  "Natural Resistance": {
+    "class": "Toutes",
+    "type": "Defensive",
+    "slots": ["Helms", "Chest Armor", "Pants", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Fire Resistance", "fr": "Résistance au feu" },
+      { "en": "Lightning Resistance", "fr": "Résistance à la foudre" },
+      { "en": "Cold Resistance", "fr": "Résistance au froid" },
+      { "en": "Poison Resistance", "fr": "Résistance au poison" },
+      { "en": "Shadow Resistance", "fr": "Résistance à l'ombre" },
+      { "en": "Physical Resistance", "fr": "Résistance physique" }
+    ]
+  },
+  "Worldly Endurance": {
+    "class": "Toutes",
+    "type": "Defensive",
+    "slots": ["Helms", "Chest Armor", "Pants", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Maximum Life", "fr": "Maximum de points de vie" },
+      { "en": "Armor", "fr": "Armure" },
+      { "en": "Resistance to All Elements", "fr": "Résistance à tous les éléments" },
+      { "en": "Maximum Resolve Stacks", "fr": "Maximum de cumuls de Détermination" }
+    ]
+  },
+  "Barbarian Breach": {
+    "class": "Barbare",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Barbarian Control": {
+    "class": "Barbare",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Steel Grasp Stuns", "fr": "Poigne de fer étourdit" },
+      { "en": "Upheaval Overpowers Stun", "fr": "Commotion accablante étourdit" },
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Barbarian Innovation": {
+    "class": "Barbare",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Stun Duration", "fr": "Durée d'étourdissement" }
+    ]
+  },
+  "Bleed Innovation": {
+    "class": "Barbare",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Brute Innovation": {
+    "class": "Barbare",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Thorn Body": {
+    "class": "Barbare",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Thorns while Fortified", "fr": "Épines sous l'effet de Fortification" }
+    ]
+  },
+  "Wasteland Innovation": {
+    "class": "Barbare",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "All Stats", "fr": "Toutes les caractéristiques" }
+    ]
+  },
+  "Worldly Fortune": {
+    "class": "Toutes",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Lucky Hit Chance", "fr": "Chances de coup de chance" },
+      { "en": "Impairment Reduction", "fr": "Réduction de la perte de contrôle" },
+      { "en": "Crowd Control Duration", "fr": "Durée des effets de contrôle de foule" }
+    ]
+  },
+  "Natural Schemes": {
+    "class": "Toutes",
+    "type": "Utility",
+    "slots": ["Helms", "Chest Armor", "Gloves", "Pants", "Boots", "Shields", "Amulets"],
+    "affixes": [
+      { "en": "Thorns", "fr": "Épines" },
+      { "en": "Fortify Generation", "fr": "Génération de Fortification" },
+      { "en": "Barrier Generation", "fr": "Génération de Barrière" }
+    ]
+  },
+  "Barbarian Motion": {
+    "class": "Barbare",
+    "type": "Mobility",
+    "slots": ["Boots", "Amulets"],
+    "affixes": [
+      { "en": "Leap Cooldown Reduction", "fr": "Réduction du temps de recharge de Bond" }
+    ]
+  },
+  "Natural Motion": {
+    "class": "Toutes",
+    "type": "Mobility",
+    "slots": ["Boots", "Amulets"],
+    "affixes": [
+      { "en": "Movement Speed", "fr": "Vitesse de déplacement" },
+      { "en": "Movement Speed After Killing an Elite", "fr": "Vitesse de déplacement après avoir tué un élite" },
+      { "en": "Mobility Cooldown Reduction", "fr": "Réduction du temps de recharge de Mobilité" },
+      { "en": "Evade Cooldown Reduction", "fr": "Réduction du temps de recharge d'Esquive" }
+    ]
+  },
+  "Brawling Efficiency": {
+    "class": "Barbare",
+    "type": "Resource",
+    "slots": ["Rings", "Amulets"],
+    "affixes": [
+      { "en": "War Cry Cooldown Reduction", "fr": "Réduction du temps de recharge de Cri de guerre" }
+    ]
+  },
+  "Weapon Attunement — Barbarian": {
+    "class": "Barbare",
+    "type": "Resource",
+    "slots": ["Rings", "Amulets"],
+    "affixes": [
+      { "en": "Basic Resource Generation", "fr": "Génération de ressource de base" }
+    ]
+  },
+  "Ultimate Efficiency — Barbarian": {
+    "class": "Barbare",
+    "type": "Resource",
+    "slots": ["Rings", "Amulets"],
+    "affixes": [
+      { "en": "Call of the Ancients Cooldown Reduction", "fr": "Réduction du temps de recharge d'Appel des Anciens" },
+      { "en": "Iron Maelstrom Cooldown Reduction", "fr": "Réduction du temps de recharge de Maelström de fer" },
+      { "en": "Wrath of the Berserker Cooldown Reduction", "fr": "Réduction du temps de recharge de Courroux du berserker" }
+    ]
+  },
+  "Weapon Mastery Efficiency": {
+    "class": "Barbare",
+    "type": "Resource",
+    "slots": ["Rings", "Amulets"],
+    "affixes": [
+      { "en": "Weapon Mastery Cooldown Reduction", "fr": "Réduction du temps de recharge de Maîtrise des armes" },
+      { "en": "Death Blow Cooldown Reduction", "fr": "Réduction du temps de recharge de Coup mortel" },
+      { "en": "Rupture Cooldown Reduction", "fr": "Réduction du temps de recharge de Rupture" },
+      { "en": "Steel Grasp Cooldown Reduction", "fr": "Réduction du temps de recharge de Poigne de fer" }
+    ]
+  },
+  "Worldly Stability": {
+    "class": "Toutes",
+    "type": "Resource",
+    "slots": ["Rings", "Amulets"],
+    "affixes": [
+      { "en": "Resource Generation", "fr": "Génération de ressource" },
+      { "en": "Resource Cost Reduction", "fr": "Réduction du coût en ressource" },
+      { "en": "Lucky Hit: Chance to Restore Primary Resource", "fr": "Coup de chance : chances de restaurer la ressource principale" },
+      { "en": "Cooldown Reduction", "fr": "Réduction du temps de recharge" }
+    ]
+  }
+}
