@@ -69,7 +69,8 @@
     "to Hammer of the Ancients": { "nomFR": "+[2 - 3] à Marteau des Anciens"  },
     "to Rend": { "nomFR": "+[2 - 3] à Déchirure"  },
     "to Upheaval": { "nomFR": "+[2 - 3] à Commotion"  },
-    "to Whirlwind": { "nomFR": "+[2 - 3] à Trombe"  }
+    "to Whirlwind": { "nomFR": "+[2 - 3] à Trombe"  },
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
   },
   "Jambières": {
     "Strength": { "nomFR": "+[47 - 56] Force"  },

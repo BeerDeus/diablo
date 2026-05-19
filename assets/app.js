@@ -96,6 +96,7 @@ setTimeout(() => {
 }, 1000);
 
 // Gère les cases à cocher Unique / Mythique
+// Gère les cases à cocher Unique / Mythique
 window.majTypeEquipement = (slot, type, isChecked) => {
     if (!activeVariant) return;
     const cible = currentManualBuild.variantes[activeVariant].equipement[slot];
@@ -109,7 +110,6 @@ window.majTypeEquipement = (slot, type, isChecked) => {
     }
     cible.uniqueName = ""; // Réinitialise l'objet choisi
     cible.aspectEN = ""; // Supprime l'aspect assigné
-    cible.trempe = ""; // Supprime la trempe (les uniques/mythiques n'ont pas de trempe)
     
     afficherEditeurVariante();
 };
@@ -482,7 +482,8 @@ if (trackSlot.objetPossede === undefined) trackSlot.objetPossede = false;
 
         // Section Statistiques
         let statsHTML = '';
-        if (item.stats && item.stats.length > 0) {
+        // NOUVEAU : On masque complètement les stats si l'objet est Mythique
+        if (item.stats && item.stats.length > 0 && !item.isMythic) {
             statsHTML += `<div style="margin-top: 12px; border-top: 1px dashed #333; padding-top: 8px;">
                 <span style="font-size: 0.75em; text-transform: uppercase; color: #ffcc00; font-weight: bold;">Stats cibles :</span>
                 <ul style="margin: 4px 0 0 0; padding-left: 0; list-style: none; font-size: 0.85em;">`;
@@ -500,9 +501,9 @@ if (trackSlot.objetPossede === undefined) trackSlot.objetPossede = false;
             statsHTML += `</ul></div>`;
         }
 
-        // Section Trempe (Pas de trempe pour les Uniques/Mythiques)
+        // Section Trempe (Affichée pour tout le monde désormais)
         let trempeHTML = '';
-        if (item.trempe && !(item.isUnique || item.isMythic)) {
+        if (item.trempe) {
             const cocheTrempe = trackSlot.trempeObtenue || false;
             trempeHTML += `
                 <div style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.85em; color: ${cocheTrempe ? '#4CAF50' : '#ccc'};">
@@ -533,14 +534,15 @@ if (trackSlot.objetPossede === undefined) trackSlot.objetPossede = false;
         }
 
         // Indicateur d'achèvement (Adapté pour les Uniques/Mythiques)
-        let totalElements = (item.stats ? item.stats.length : 0) + (item.gemmes ? item.gemmes.filter(g => g.trim() !== "").length : 0);
-        if (!(item.isUnique || item.isMythic) && item.trempe) totalElements++;
+        // NOUVEAU : Calcul dynamique selon les exclusions (Mythiques n'ont pas de stats, mais ont une trempe)
+        let totalElements = (!item.isMythic && item.stats ? item.stats.length : 0) + (item.gemmes ? item.gemmes.filter(g => g.trim() !== "").length : 0);
+        if (item.trempe) totalElements++;
         if (item.isUnique || item.isMythic) totalElements++; // La case "Possédé" compte pour 1 élément
 
         let elementsObtenus = 0;
-        if (item.stats) trackSlot.statsObtenues.forEach(b => { if(b) elementsObtenus++; });
+        if (!item.isMythic && item.stats) trackSlot.statsObtenues.forEach(b => { if(b) elementsObtenus++; });
         if (item.gemmes) trackSlot.gemmesObtenues.forEach(b => { if(b) elementsObtenus++; });
-        if (!(item.isUnique || item.isMythic) && item.trempe && trackSlot.trempeObtenue) elementsObtenus++;
+        if (item.trempe && trackSlot.trempeObtenue) elementsObtenus++;
         if ((item.isUnique || item.isMythic) && trackSlot.objetPossede) elementsObtenus++;
         
         let pcent = totalElements > 0 ? Math.round((elementsObtenus / totalElements) * 100) : 100;
@@ -715,9 +717,12 @@ function afficherEditeurVariante() {
                             <strong style="color: #fff; font-size: 0.9em;">${infoAspect.nomFR}</strong> 
                             <div style="color: #aaa; font-size: 0.85em; margin-top: 2px; line-height: 1.25;">${infoAspect.description || 'Pas de description'}</div>
                         </div>
-                        <label style="color: #4CAF50; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 3px; white-space: nowrap;">
-                            <input type="checkbox" ${item.possede ? 'checked' : ''} onchange="window.basculerPossessionAspect(${index})"> OK
-                        </label>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <label style="color: #4CAF50; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 3px; white-space: nowrap;">
+                                <input type="checkbox" ${item.possede ? 'checked' : ''} onchange="window.basculerPossessionAspect(${index})"> OK
+                            </label>
+                            <button onclick="window.supprimerAspect(${index})" style="background: transparent; border: none; color: #ff4444; font-size: 1.4em; cursor: pointer; padding: 0; line-height: 0.8;" title="Retirer cet aspect">×</button>
+                        </div>
                     </div>`;
             }
         });
@@ -845,13 +850,15 @@ function afficherEditeurVariante() {
                 <div style="margin-bottom: 12px;">
                     ${menuObjetHtml}
                 </div>
+                ${data.isMythic ? '' : `
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div style="grid-column: span 2;"><span style="color: #aaa; font-size: 0.8em;">Statistiques cibles :</span></div>
-                    ${data.stats.map((s, i) => `<input type="text" list="stats-list-${slotId}-${i}" placeholder="Statistique ${i+1}" value="${s}" onchange="window.majChamp('${slot}', 'stats', ${i}, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;" ${isStatsLocked}>`).join('')}
+                    ${data.stats.map((s, i) => `<input type="text" list="stats-list-${slotId}-${i}" placeholder="Statistique ${i+1}" value="${s}" onchange="window.majChamp('${slot}', 'stats', ${i}, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;">`).join('')}
                 </div>
+                `}
                 <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <div style="grid-column: span 2;"><span style="color: #aaa; font-size: 0.8em;">Trempe & Gemmes :</span></div>
-                    ${!typeSelectionne ? `<input type="text" list="temper-list-${slotId}" placeholder="Trempe unique (Recherche automatique)" value="${data.trempe || ''}" onchange="window.majChamp('${slot}', 'trempe', null, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #500; color: white; border-radius: 4px; grid-column: span 2;">` : ''}
+                    <input type="text" list="temper-list-${slotId}" placeholder="Trempe unique (Recherche automatique)" value="${data.trempe || ''}" onchange="window.majChamp('${slot}', 'trempe', null, this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #500; color: white; border-radius: 4px; grid-column: span 2;">
                     ${gemmesHtml}
                 </div>
             </div>`;
@@ -950,6 +957,24 @@ window.basculerPossessionAspect = (index) => {
         }
         
         // Rafraîchissement de la vue pour mettre à jour les listes déroulantes
+        afficherEditeurVariante();
+    }
+};
+
+// Retire un aspect de la réserve et le désassigne des équipements pour éviter les conflits
+window.supprimerAspect = (index) => {
+    if (!activeVariant) return;
+    const varianteActuelle = currentManualBuild.variantes[activeVariant];
+    const aspect = varianteActuelle.aspectsPool[index];
+    
+    if (aspect) {
+        for (const slot in varianteActuelle.equipement) {
+            if (varianteActuelle.equipement[slot].aspectEN === aspect.key) {
+                varianteActuelle.equipement[slot].aspectEN = "";
+            }
+        }
+        
+        varianteActuelle.aspectsPool.splice(index, 1);
         afficherEditeurVariante();
     }
 };
