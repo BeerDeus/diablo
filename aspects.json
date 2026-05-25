@@ -128,8 +128,8 @@
     "description": "Lorsque vous bénéficiez d’une fortification, vous obtenez 30%[+] de génération de fortification et [15 - 20]% de réduction des dégâts supplémentaires."
   },
   "Aspect of Limitless Rage": {
-    "nomFR": "Aspect de colère débordante",
-    "description": "Lorsque vous dépensez 100 points de fureur, les dégâts de vos compétences de combat augmentent de [40 - 60]%[x] pendant 4 s."
+    "nomFR": "Aspect de rage infinie",
+    "description": "Chaque point de fureur que vous générez augmente les dégâts que vous infligez de [1.00 - 1.50]%[x]. Ce bonus est perdu au bout de 4 s."
   },
   "Commanding Assault Aspect": {
     "nomFR": "Aspect de commandement d’assaut",
