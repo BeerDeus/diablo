@@ -303,9 +303,14 @@ window.editerBuild = (buildId) => {
         
         varianteData.equipement = equipementReconstruit;
             
-            // NOUVEAU : Initialisation rétroactive des talismans si le build est ancien
-            if (!varianteData.talismans) {
-                varianteData.talismans = Array(5).fill(null).map(() => ({ nom: "", bonus: "" }));
+            // Initialisation et conversion rétroactive si le build est ancien
+            if (!varianteData.talismans || varianteData.talismans.length < 7) {
+                const anciens = varianteData.talismans || [];
+                varianteData.talismans = Array(7).fill(null).map((_, idx) => ({
+                    nom: anciens[idx]?.nom || "",
+                    bonus1: anciens[idx]?.bonus1 || anciens[idx]?.bonus || "",
+                    bonus2: anciens[idx]?.bonus2 || ""
+                }));
             }
         }
 
@@ -359,7 +364,7 @@ window.chargerBuildSurPage = async (buildId) => {
         <div id="tracking-aspects-pool"></div>
         <div class="gear-list" id="gear-display"></div>
         
-        <h3 style="color: var(--d4-red); margin-top: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">Talismans</h3>
+        <h3 style="color: var(--d4-red); margin-top: 30px; border-bottom: 1px solid #333; padding-bottom: 10px;">Talismans & Charme</h3>
         <div class="gear-list" id="talisman-display"></div>
     `;
 
@@ -587,34 +592,42 @@ if (trackSlot.objetPossede === undefined) trackSlot.objetPossede = false;
 
     document.getElementById('gear-display').innerHTML = gearHTML;
 
-    // --- NOUVEAU : RENDU DES TALISMANS (MODE SUIVI) ---
+    // --- RENDU DES TALISMANS & CHARME (MODE SUIVI) ---
     let talismansHTML = '';
     const talismans = varianteInfo.talismans || [];
     
-    // Initialisation de la progression des talismans si absente
-    if (!trackingVariante.talismans) {
-        trackingVariante.talismans = Array(talismans.length || 5).fill(false);
+    if (!trackingVariante.talismans || trackingVariante.talismans.length < 7) {
+        trackingVariante.talismans = Array(7).fill(false);
     }
 
     talismans.forEach((tali, idx) => {
-        if (tali.nom.trim() !== "" || tali.bonus.trim() !== "") {
+        if (tali.nom.trim() !== "" || tali.bonus1.trim() !== "" || tali.bonus2.trim() !== "") {
             const coche = trackingVariante.talismans[idx] || false;
+            const isCharme = idx === 6;
+            
+            let colorBorder = coche ? '#4CAF50' : (isCharme ? '#ba68c8' : '#a04040');
+            let styleCard = `border-left: ${isCharme ? '6px' : '4px'} solid ${colorBorder}; background: #111; padding: 15px; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between;`;
+            if (isCharme) styleCard += 'grid-column: span 2; box-shadow: 0 0 10px rgba(186, 104, 200, 0.2);';
+
             talismansHTML += `
-                <div class="gear-item" style="border-left: 4px solid ${coche ? '#4CAF50' : '#a04040'}; background: #111; padding: 15px; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between;">
+                <div class="gear-item" style="${styleCard}">
                     <div>
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <strong style="color: #ffcc00; font-size: 1.05em;">${tali.nom || 'Talisman ' + (idx+1)}</strong>
+                            <strong style="color: #ffcc00; font-size: ${isCharme ? '1.2em' : '1.05em'};">${tali.nom || (isCharme ? 'Charme Central' : 'Talisman ' + (idx+1))}</strong>
                             <label style="cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 0.85em; color: ${coche ? '#4CAF50' : '#ccc'};">
                                 <input type="checkbox" ${coche ? 'checked' : ''} onchange="window.majTrackingTalisman(${idx}, this.checked)"> Obtenu
                             </label>
                         </div>
-                        ${tali.bonus ? `<div style="color: #aaa; font-size: 0.85em; background: #151515; padding: 8px; border-radius: 4px; border: 1px solid #252525;"><strong style="color: #eee;">Bonus :</strong> ${tali.bonus}</div>` : ''}
+                        <div style="display: flex; flex-direction: column; gap: 4px; background: #151515; padding: 8px; border-radius: 4px; border: 1px solid #252525; font-size: 0.85em;">
+                            ${tali.bonus1 ? `<div><strong style="color: #eee;">Prio 1 :</strong> ${tali.bonus1}</div>` : ''}
+                            ${tali.bonus2 ? `<div><strong style="color: #eee;">Prio 2 :</strong> ${tali.bonus2}</div>` : ''}
+                        </div>
                     </div>
                 </div>`;
         }
     });
     
-    if(talismansHTML === '') talismansHTML = '<p style="color: #777; font-style: italic; font-size: 0.85em; grid-column: span 2;">Aucun talisman configuré pour cette variante.</p>';
+    if(talismansHTML === '') talismansHTML = '<p style="color: #777; font-style: italic; font-size: 0.85em; grid-column: span 2;">Aucun talisman ou charme configuré pour cette variante.</p>';
     document.getElementById('talisman-display').innerHTML = talismansHTML;
 };
 
@@ -711,7 +724,8 @@ document.getElementById('addVariantBtn').addEventListener('click', () => {
                 index: indexVal, // Ajout de l'index de tri
                 aspectsPool: [],
                 equipement: {},
-                talismans: Array(5).fill(null).map(() => ({ nom: "", bonus: "" }))
+                // On passe à 7 emplacements (6 talismans + 1 charme) avec deux bonus
+                talismans: Array(7).fill(null).map(() => ({ nom: "", bonus1: "", bonus2: "" }))
             };
             
             ordreEquipementComplet.forEach(slot => {
@@ -889,13 +903,22 @@ function afficherEditeurVariante() {
                 }
             }
         } else {
-            // Affichage normal des Aspects de la réserve
+            // --- MODIFICATION : Filtrage des aspects déjà assignés sur d'autres pièces ---
             let optionsAspects = `<option value="">-- Assigner un aspect de la réserve --</option>`;
+            
+            // On liste tous les aspects actuellement assignés à d'autres slots de la même variante
+            const aspectsDejaAssignes = Object.entries(slots)
+                .filter(([nomSlot, infoSlot]) => nomSlot !== slot && infoSlot.aspectEN)
+                .map(([nomSlot, infoSlot]) => infoSlot.aspectEN);
+
             varianteActuelle.aspectsPool.forEach(item => {
                 if (item.possede) {
-                    const info = aspectsDict[item.key];
-                    if (info) {
-                        optionsAspects += `<option value="${item.key}" ${data.aspectEN === item.key ? 'selected' : ''}>${info.nomFR}</option>`;
+                    // L'aspect n'est ajouté aux options que s'il est libre OU s'il est déjà choisi sur CE slot précis
+                    if (!aspectsDejaAssignes.includes(item.key) || data.aspectEN === item.key) {
+                        const info = aspectsDict[item.key];
+                        if (info) {
+                            optionsAspects += `<option value="${item.key}" ${data.aspectEN === item.key ? 'selected' : ''}>${info.nomFR}</option>`;
+                        }
                     }
                 }
             });
@@ -947,17 +970,25 @@ function afficherEditeurVariante() {
     
     document.getElementById('gearSlotEditor').innerHTML = htmlGear;
     
-    // --- NOUVEAU : RENDU DES TALISMANS ---
+    // Moteur de rendu des talismans et du charme central
     let htmlTalismans = '';
-    if (!varianteActuelle.talismans) varianteActuelle.talismans = Array(5).fill(null).map(() => ({ nom: "", bonus: "" }));
+    if (!varianteActuelle.talismans) varianteActuelle.talismans = Array(7).fill(null).map(() => ({ nom: "", bonus1: "", bonus2: "" }));
     
     varianteActuelle.talismans.forEach((tali, idx) => {
+        const isCharme = idx === 6;
+        const titre = isCharme ? "Charme Central" : `Talisman ${idx + 1}`;
+        const borderStyle = isCharme ? "border-left: 6px solid #ba68c8; box-shadow: 0 0 10px rgba(186, 104, 200, 0.3);" : "border-left: 4px solid #a04040;";
+        const placeholderNom = isCharme ? "Nom du charme (ex: Berserker's Crucible)" : "Nom du talisman";
+
         htmlTalismans += `
-            <div class="gear-item" style="border-left: 4px solid #a04040; background: #111; padding: 15px; border-radius: 6px;">
-                <strong style="color: #ffcc00; font-size: 1.05em; display: block; margin-bottom: 10px;">Talisman ${idx + 1}</strong>
+            <div class="gear-item" style="${borderStyle} background: #111; padding: 15px; border-radius: 6px; ${isCharme ? 'grid-column: span 2;' : ''}">
+                <strong style="color: #ffcc00; font-size: ${isCharme ? '1.2em' : '1.05em'}; display: block; margin-bottom: 10px;">${titre}</strong>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <input type="text" placeholder="Nom du talisman (ex: Fer of the Crucible)" value="${tali.nom}" onchange="window.majTalisman(${idx}, 'nom', this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;">
-                    <input type="text" placeholder="Bonus prioritaire" value="${tali.bonus}" onchange="window.majTalisman(${idx}, 'bonus', this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;">
+                    <input type="text" placeholder="${placeholderNom}" value="${tali.nom}" onchange="window.majTalisman(${idx}, 'nom', this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <input type="text" placeholder="Bonus prio 1" value="${tali.bonus1}" onchange="window.majTalisman(${idx}, 'bonus1', this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;">
+                        <input type="text" placeholder="Bonus prio 2" value="${tali.bonus2}" onchange="window.majTalisman(${idx}, 'bonus2', this.value)" style="padding: 8px; font-size: 0.85em; background: #222; border: 1px solid #444; color: white; border-radius: 4px;">
+                    </div>
                 </div>
             </div>
         `;
@@ -983,7 +1014,7 @@ window.majGemme = (slot, index, valeur) => {
     currentManualBuild.variantes[activeVariant].equipement[slot].gemmes[index] = valeur;
 };
 
-// NOUVEAU : Met à jour un champ d'un talisman
+// Met à jour un champ d'un talisman
 window.majTalisman = (index, champ, valeur) => {
     if (!activeVariant) return;
     currentManualBuild.variantes[activeVariant].talismans[index][champ] = valeur;
@@ -1137,12 +1168,12 @@ document.getElementById('saveBuildBtn').addEventListener('click', async () => {
         
         // Sauvegarde de l'index de tri
         buildAExporter.variantes[nomVar].index = varianteInfo.index !== undefined ? varianteInfo.index : 99;
-        
+    
         // Sauvegarde de la réserve d'aspects globale de la variante
         buildAExporter.variantes[nomVar].aspectsPool = varianteInfo.aspectsPool || [];
         
-        // NOUVEAU : Sauvegarde des talismans
-        buildAExporter.variantes[nomVar].talismans = varianteInfo.talismans || Array(5).fill(null).map(() => ({ nom: "", bonus: "" }));
+        // Sauvegarde des 7 éléments (6 talismans + 1 charme)
+        buildAExporter.variantes[nomVar].talismans = varianteInfo.talismans || Array(7).fill(null).map(() => ({ nom: "", bonus1: "", bonus2: "" }));
 
         for (const [slotFR, data] of Object.entries(varianteInfo.equipement)) {
             const slotEN = dictInversé[slotFR];
