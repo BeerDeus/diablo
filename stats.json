@@ -198,7 +198,8 @@
     "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[600.0 - 800.0]% de ressource principale"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[126 - 272] de vie"  },
     "Resource Cost Reduction": { "nomFR": "[4.0 - 8.0]% Réduction du coût en ressource"  },
-    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"},
+    "Weapon Damage" :{ "nomFR": "Dégats de l'arme"}
   },
   "Arme tranchante": {
     "Strength": { "nomFR": "+[94 - 112] Force"  },
@@ -212,7 +213,8 @@
     "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[600.0 - 800.0]% de ressource principale"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[126 - 272] de vie"  },
     "Resource Cost Reduction": { "nomFR": "[4.0 - 8.0]% Réduction du coût en ressource"  },
-    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"},
+    "Weapon Damage" :{ "nomFR": "Dégats de l'arme"}
   },
   "Arme à une main 1": {
     "Strength": { "nomFR": "+[47 - 56] Force"  },
@@ -224,7 +226,8 @@
     "Damage Over Time Multiplier": { "nomFR": "x[12 - 15]% Multiplicateur de dégâts sur la durée"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[63 - 136] de vie"  },
     "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[300.0 - 400.0]% de ressource principale"  },
-    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"},
+    "Weapon Damage" :{ "nomFR": "Dégats de l'arme"}
   },
   "Arme à une main 2": {
     "Strength": { "nomFR": "+[47 - 56] Force"  },
@@ -236,6 +239,7 @@
     "Damage Over Time Multiplier": { "nomFR": "x[12 - 15]% Multiplicateur de dégâts sur la durée"  },
     "Lucky Hit: Up to a 15% Chance to Heal Life": { "nomFR": "Coup de chance : jusqu'à 15% de chances de récupérer +[63 - 136] de vie"  },
     "Lucky Hit: Up to a 15% Chance to Restore Primary Resource": { "nomFR": "Coup de chance : jusqu'à 15% de chances de restaurer +[300.0 - 400.0]% de ressource principale"  },
-    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"}
+    "Physical Damage": { "nomFR": "[10 - 16]% Multiplicateur de dégats physique"},
+    "Weapon Damage" :{ "nomFR": "Dégats de l'arme"}
   }
 }
