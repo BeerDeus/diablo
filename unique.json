@@ -19,6 +19,28 @@
         "+15.0% de chances d’obtenir un Coup de chance",
         "+25% à la vitesse de déplacement"
       ]
+    },
+    "Heir of Perdition": {
+      "nomFR": "Héritier de perdition",
+      "effet": "Succombez à la haine et obtenez la faveur maternelle, ce qui augmente les dégâts que vous infligez de 80%[x]. Massacrez des adversaires pour brièvement dérober la faveur maternelle des personnages alliés à proximité.",
+      "stats": [
+        "1.275 Armure",
+        "+12.0% de chances d’infliger un coup critique",
+        "+20.0% de chances d’obtenir un Coup de chance",
+        "+20% à la vitesse de déplacement",
+        "+2 aux compétences de type Principale"
+      ]
+    },
+    "Ring of Starless Skies": {
+      "nomFR": "Anneau du ciel sans étoiles",
+      "effet": "Utiliser votre ressource principale réduit le coût en ressource de vos compétences et augmente vos dégâts de 10%[x] pendant 3 s, jusqu’à 50%[x] au maximum.",
+      "stats": [
+        "118 Toutes les résistances",
+        "+15.0% à la vitesse d’attaque",
+        "+12.0% de chances d’infliger un coup critique",
+        "+12.5% de chances d’obtenir un Coup de chance",
+        "+2 aux compétences de type Principale"
+      ]
     }
   }
 }
